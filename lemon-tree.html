@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍋 Lemon Tree — 英文歌曲互動學習</title>
+<style>
+/* ── Reset & Variables ─────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dg:#1B4332;--g:#2D6A4F;--mg:#40916C;--lg:#95D5B2;
+  --yl:#F4C430;--ylbg:#FFFDE7;--ylcd:#FFF9C4;
+  --wh:#FFFFFF;--dk:#212121;--gy:#616161;
+  --or:#EA580C;--pl:#6B46C1;--tl:#0D9488;
+  --ok:#16A34A;--no:#DC2626;
+  --shadow:0 4px 16px rgba(0,0,0,.10);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI','Microsoft JhengHei',sans-serif;background:var(--ylbg);color:var(--dk);line-height:1.7}
+
+/* ── Hero ──────────────────────────────────────────────────── */
+.hero{
+  background:var(--dg);color:#fff;
+  padding:3.5rem 2rem 2.5rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero-circle1{position:absolute;top:-90px;right:-90px;width:320px;height:320px;background:#245638;border-radius:50%}
+.hero-circle2{position:absolute;top:-60px;right:-60px;width:240px;height:240px;background:var(--yl);border-radius:50%;opacity:.9}
+.hero-circle3{position:absolute;bottom:-40px;left:-50px;width:160px;height:160px;background:var(--mg);border-radius:50%;opacity:.4}
+.hero-content{position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--yl);color:var(--dg);font-weight:700;padding:.3rem 1.1rem;border-radius:20px;font-size:.9rem;margin-bottom:1rem;letter-spacing:.03em}
+.hero h1{font-size:3.8rem;font-family:Georgia,serif;color:var(--yl);margin-bottom:.3rem}
+.hero .artist{font-size:1.2rem;color:var(--lg);font-style:italic;margin-bottom:.5rem}
+.hero .subtitle{font-size:.95rem;color:#74b896}
+
+/* ── Container ─────────────────────────────────────────────── */
+.container{max-width:960px;margin:0 auto;padding:0 1.5rem 3rem}
+
+/* ── Nav (progress pills) ──────────────────────────────────── */
+.nav-pills{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;padding:1.5rem 0 .5rem}
+.nav-pills a{
+  text-decoration:none;background:var(--g);color:#fff;
+  padding:.4rem 1rem;border-radius:20px;font-size:.88rem;font-weight:600;
+  transition:background .2s;
+}
+.nav-pills a:hover{background:var(--mg)}
+
+/* ── Section title ─────────────────────────────────────────── */
+.sec-title{
+  display:flex;align-items:center;gap:.6rem;
+  background:var(--g);color:#fff;
+  padding:.9rem 1.5rem;font-size:1.2rem;font-weight:700;
+  border-radius:10px 10px 0 0;margin-top:2.5rem;
+}
+.sec-body{background:#fff;border:1.5px solid var(--lg);border-top:none;border-radius:0 0 10px 10px;overflow:hidden}
+
+/* ── Video ─────────────────────────────────────────────────── */
+.yt-card{background:#fff;border-radius:0 0 10px 10px;overflow:hidden;padding:1.2rem}
+.yt-player{position:relative;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.15);cursor:pointer;background:#000}
+.yt-player img{width:100%;display:block;transition:opacity .2s}
+.yt-player:hover img{opacity:.75}
+.yt-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.yt-play-btn{width:72px;height:72px;background:rgba(255,0,0,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.yt-play-btn svg{width:30px;height:30px;fill:#fff;margin-left:5px}
+.yt-player:hover .yt-play-btn{transform:scale(1.12);background:#FF0000}
+.yt-info{padding:.9rem .2rem 0}
+.yt-info-title{font-size:1.05rem;font-weight:700;color:var(--dg)}
+.yt-info-sub{font-size:.88rem;color:var(--gy);font-style:italic;margin-top:.2rem}
+.yt-iframe-wrap{position:relative;padding-bottom:56.25%;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.yt-iframe-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+
+/* ── Lyrics ─────────────────────────────────────────────────── */
+.lyrics-intro{padding:1rem 1.8rem .5rem;font-size:.92rem;color:var(--gy);font-style:italic}
+.lyrics-intro span{background:var(--ylcd);border-radius:4px;padding:0 4px;color:var(--dg);font-weight:600;font-style:normal}
+
+.verse{padding:1.3rem 1.8rem;border-bottom:1px solid #f0f0f0}
+.verse:last-child{border-bottom:none}
+.verse-label{
+  display:inline-block;font-size:.75rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:#fff;background:var(--mg);border-radius:4px;
+  padding:.15rem .6rem;margin-bottom:.9rem;
+}
+.verse.chorus{background:#f9fbe7}
+.verse.chorus .verse-label{background:var(--or)}
+.verse.bridge{background:#f5f3ff}
+.verse.bridge .verse-label{background:var(--pl)}
+
+.lyric-line{display:grid;grid-template-columns:1fr 1fr;gap:.3rem 1.5rem;margin-bottom:.55rem}
+.en{font-size:1.05rem}
+.zh{font-size:.95rem;color:var(--gy)}
+
+/* keyword highlight + tooltip */
+.kw{
+  background:var(--ylcd);border-bottom:2.5px solid var(--yl);
+  cursor:pointer;padding:0 3px;border-radius:3px;
+  font-weight:700;color:var(--dg);position:relative;
+  transition:background .15s;
+}
+.kw:hover{background:var(--yl)}
+.tooltip{
+  display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  background:var(--dg);color:#fff;padding:.5rem .9rem;border-radius:7px;
+  font-size:.85rem;white-space:nowrap;z-index:99;font-weight:400;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;
+}
+.tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:var(--dg)}
+.kw:hover .tooltip{display:block}
+
+/* ── Vocab cards ────────────────────────────────────────────── */
+.vocab-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:1rem;padding:1.5rem;
+}
+.vc{
+  background:var(--ylbg);border:1.5px solid var(--lg);border-radius:10px;
+  padding:1rem;transition:transform .15s,box-shadow .15s;
+}
+.vc:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.vc-word{font-size:1.35rem;font-weight:700;color:var(--dg)}
+.vc-pron{font-size:.85rem;color:var(--mg);font-style:italic;margin-top:2px}
+.vc-pos {font-size:.78rem;color:var(--gy)}
+.vc-divider{border:none;border-top:1px solid var(--lg);margin:.6rem 0 .5rem}
+.vc-en{font-size:.92rem;color:var(--dk)}
+.vc-zh{font-size:1rem;font-weight:700;color:var(--g);margin-top:.25rem}
+
+/* ── Exercise shared ────────────────────────────────────────── */
+.ex-body{padding:1.8rem}
+.ex-note{font-size:.93rem;color:var(--gy);margin-bottom:1.2rem}
+
+.btn{
+  padding:.6rem 1.8rem;border:none;border-radius:7px;
+  font-size:1rem;font-weight:700;cursor:pointer;
+  transition:opacity .2s,transform .1s;
+}
+.btn:hover{opacity:.85;transform:translateY(-1px)}
+.btn-green{background:var(--g);color:#fff}
+.btn-gray {background:#e5e7eb;color:var(--dk)}
+.btn-or   {background:var(--or);color:#fff}
+.score-msg{margin-top:1rem;font-size:1rem;font-weight:700;min-height:1.5rem}
+
+/* ── Fill-in-blank ──────────────────────────────────────────── */
+.word-bank{
+  background:var(--ylbg);border:1.5px solid var(--mg);border-radius:8px;
+  padding:.8rem 1.3rem;margin-bottom:1.5rem;font-size:1rem;
+}
+.word-bank strong{color:var(--g);margin-right:.5rem}
+.fill-item{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:1.1rem;font-size:1.05rem}
+.fill-blank{
+  border:none;border-bottom:2.5px solid var(--mg);background:transparent;
+  font-size:1rem;width:130px;text-align:center;color:var(--dg);
+  font-weight:700;outline:none;padding:2px 4px;
+}
+.fill-blank.correct{border-color:var(--ok);color:var(--ok);background:#f0fdf4;border-radius:4px}
+.fill-blank.wrong  {border-color:var(--no);color:var(--no);background:#fef2f2;border-radius:4px;animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* ── Word match ─────────────────────────────────────────────── */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.7rem 1.2rem;margin-bottom:1.2rem}
+.match-col{display:flex;flex-direction:column;gap:.55rem}
+.m-item{
+  padding:.7rem 1rem;border-radius:8px;border:2px solid var(--lg);
+  cursor:pointer;font-size:1rem;background:#fff;
+  transition:all .15s;user-select:none;
+}
+.m-item:hover{border-color:var(--yl);background:var(--ylbg)}
+.m-item.sel    {border-color:var(--yl);background:var(--ylcd);font-weight:700}
+.m-item.matched{border-color:var(--ok);background:#f0fdf4;color:var(--ok);font-weight:700;cursor:default}
+.m-item.wrong  {border-color:var(--no);background:#fef2f2;animation:shake .35s}
+
+/* ── True/False ─────────────────────────────────────────────── */
+.tf-item{margin-bottom:1.5rem}
+.tf-q{font-size:1.05rem;margin-bottom:.6rem}
+.tf-btns{display:flex;gap:.8rem}
+.tf-btn{
+  padding:.5rem 1.5rem;border-radius:7px;border:2px solid;
+  font-size:.95rem;font-weight:700;cursor:pointer;background:#fff;transition:all .15s;
+}
+.tf-btn.t{border-color:var(--ok);color:var(--ok)}
+.tf-btn.f{border-color:var(--no);color:var(--no)}
+.tf-btn.right{background:var(--ok);color:#fff;border-color:var(--ok)}
+.tf-btn.wrong2{opacity:.35}
+.tf-exp{margin-top:.5rem;font-size:.92rem;color:var(--pl);font-style:italic;display:none;padding:.5rem .8rem;background:#f5f3ff;border-radius:6px}
+.tf-exp.show{display:block}
+
+/* ── Discussion ─────────────────────────────────────────────── */
+.disc-list{list-style:none;display:flex;flex-direction:column;gap:.9rem;padding:1.5rem}
+.disc-item{display:flex;gap:1rem;align-items:flex-start;background:var(--ylbg);border-left:4px solid var(--yl);padding:1rem 1.2rem;border-radius:0 8px 8px 0}
+.disc-num{background:var(--yl);color:var(--dg);font-weight:700;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem}
+.disc-q{font-size:1.02rem}
+.disc-zh{font-size:.9rem;color:var(--gy);margin-top:.2rem}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+footer{text-align:center;padding:2rem;background:var(--dg);color:var(--lg);font-size:.9rem;margin-top:1rem}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media(max-width:600px){
+  .hero h1{font-size:2.5rem}
+  .lyric-line{grid-template-columns:1fr;gap:.1rem}
+  .zh{font-size:.87rem;color:#999}
+  .match-wrap{grid-template-columns:1fr}
+  .vocab-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-circle1"></div>
+  <div class="hero-circle2"></div>
+  <div class="hero-circle3"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🍋 英文歌曲互動學習</div>
+    <h1>Lemon Tree</h1>
+    <p class="artist">Fool's Garden &nbsp;·&nbsp; 1995</p>
+    <p class="subtitle">單字 · 歌詞 · 互動遊戲 · 討論</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Quick Nav -->
+  <nav class="nav-pills">
+    <a href="#video">🎬 影片</a>
+    <a href="#lyrics">📖 歌詞</a>
+    <a href="#vocab">📚 單字</a>
+    <a href="#ex1">✏️ 填空</a>
+    <a href="#ex2">🔗 配對</a>
+    <a href="#ex3">🙋 True/False</a>
+    <a href="#discuss">💬 討論</a>
+  </nav>
+
+  <!-- ══ VIDEO ════════════════════════════════════════════════ -->
+  <div id="video">
+    <div class="sec-title">🎬 Watch &amp; Listen &nbsp;聽歌時間</div>
+    <div class="sec-body">
+      <div class="yt-card">
+        <div id="yt-player" class="yt-player" onclick="playVideo()">
+          <img src="https://img.youtube.com/vi/LioMa_B9X_o/hqdefault.jpg"
+               alt="Lemon Tree - Fool's Garden">
+          <div class="yt-overlay">
+            <div class="yt-play-btn">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="yt-info">
+          <div class="yt-info-title">🍋 Lemon Tree — Fool's Garden (1995)</div>
+          <div class="yt-info-sub">點擊播放 · Click the thumbnail to play</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ LYRICS ═══════════════════════════════════════════════ -->
+  <div id="lyrics">
+    <div class="sec-title">📖 Lyrics &nbsp;歌詞對照</div>
+    <div class="sec-body">
+      <p class="lyrics-intro">
+        💡 把滑鼠移到 <span>黃色單字</span> 上，立即看到中文說明！
+      </p>
+
+      <!-- Verse 1 -->
+      <div class="verse">
+        <div class="verse-label">Verse 1</div>
+        <div class="lyric-line">
+          <span class="en">I'm sitting here in a <span class="kw">boring<span class="tooltip">boring (adj.) 令人無聊的</span></span> room</span>
+          <span class="zh">我坐在這個無聊的房間裡</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">It's just another rainy Sunday afternoon</span>
+          <span class="zh">又是一個下著雨的週日午後</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'm <span class="kw">wasting<span class="tooltip">waste (v.) 浪費（時間）</span></span> my time</span>
+          <span class="zh">我在浪費時間</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I got nothing to do</span>
+          <span class="zh">無事可做</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'm <span class="kw">hanging around<span class="tooltip">hang around (片語) 閒晃、無所事事</span></span></span>
+          <span class="zh">我在閒晃</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'm waiting for you</span>
+          <span class="zh">等著你</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">But nothing ever happens and I <span class="kw">wonder<span class="tooltip">wonder (v.) 疑惑、納悶</span></span></span>
+          <span class="zh">但什麼事也沒發生⋯⋯讓我疑惑⋯⋯</span>
+        </div>
+      </div>
+
+      <!-- Verse 2 -->
+      <div class="verse">
+        <div class="verse-label">Verse 2</div>
+        <div class="lyric-line">
+          <span class="en">I'm driving around in my car</span>
+          <span class="zh">我開著車四處晃</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'm driving too fast, I'm driving too far</span>
+          <span class="zh">開得太快、開得太遠</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'd like to change my <span class="kw">point of view<span class="tooltip">point of view (n.) 觀點、看事情的角度</span></span></span>
+          <span class="zh">我想換個看事情的角度</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I feel so <span class="kw">lonely<span class="tooltip">lonely (adj.) 寂寞的、孤單的</span></span></span>
+          <span class="zh">我覺得好寂寞</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'm waiting for you</span>
+          <span class="zh">等著你</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">But nothing ever happens and I wonder</span>
+          <span class="zh">但什麼事也沒發生⋯⋯讓我疑惑⋯⋯</span>
+        </div>
+      </div>
+
+      <!-- Chorus -->
+      <div class="verse chorus">
+        <div class="verse-label">🎵 Chorus 副歌</div>
+        <div class="lyric-line">
+          <span class="en">I wonder how, I wonder why</span>
+          <span class="zh">我疑惑是怎麼了，我疑惑為什麼</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">Yesterday you told me 'bout the blue blue <span class="kw">sky<span class="tooltip">sky (n.) 天空</span></span></span>
+          <span class="zh">昨天你告訴我天空好藍好藍</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">And all that I can see is just a yellow lemon-tree</span>
+          <span class="zh">但我卻只看到一棵黃色的檸檬樹</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'm <span class="kw">turning<span class="tooltip">turn (v.) 旋轉、轉動</span></span> my head up and down</span>
+          <span class="zh">我的頭上下望</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'm turning, turning, turning, turning, turning around</span>
+          <span class="zh">再轉呀轉，一圈又一圈</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">And all that I can see is just another lemon-tree</span>
+          <span class="zh">可是看到的卻只是另一棵檸檬樹</span>
+        </div>
+      </div>
+
+      <!-- Verse 3 -->
+      <div class="verse">
+        <div class="verse-label">Verse 3</div>
+        <div class="lyric-line">
+          <span class="en">I'm sitting here, I miss the power</span>
+          <span class="zh">我坐在這裡，沒了力氣</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'd like to go out taking a shower</span>
+          <span class="zh">我想出去沖沖涼</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">But there's a <span class="kw">heavy cloud<span class="tooltip">heavy cloud 心情沉重（比喻 metaphor）</span></span> inside my head</span>
+          <span class="zh">但我腦袋裡有片烏雲（心情沉重）</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I feel so tired, put myself into bed</span>
+          <span class="zh">我好累，上床去睡了</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">Well, nothing ever happens and I wonder</span>
+          <span class="zh">什麼事也沒發生⋯⋯讓我疑惑⋯⋯</span>
+        </div>
+      </div>
+
+      <!-- Bridge -->
+      <div class="verse bridge">
+        <div class="verse-label">🌉 Bridge 橋段</div>
+        <div class="lyric-line">
+          <span class="en"><span class="kw">Isolation<span class="tooltip">isolation (n.) 孤立、隔絕狀態</span></span> is not good for me</span>
+          <span class="zh">孤獨，對我不是好事</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">Isolation — I don't want to sit on the lemon-tree</span>
+          <span class="zh">孤獨，我不想坐在檸檬樹上</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">I'm steppin' around in the <span class="kw">desert<span class="tooltip">desert (n.) 沙漠、荒原</span></span> of joy</span>
+          <span class="zh">我踱步在快樂的荒原上（諷刺：沙漠般的快樂）</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">Baby anyhow I'll get another toy</span>
+          <span class="zh">寶貝，我會想辦法找到另一樣好玩的東西</span>
+        </div>
+        <div class="lyric-line">
+          <span class="en">And everything will happen and you wonder</span>
+          <span class="zh">到時任何事都可能發生，你就會開始疑惑⋯⋯</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ VOCABULARY ════════════════════════════════════════════ -->
+  <div id="vocab">
+    <div class="sec-title">📚 Key Vocabulary &nbsp;關鍵單字</div>
+    <div class="sec-body">
+      <div class="vocab-grid">
+        <div class="vc"><div class="vc-word">boring</div><div class="vc-pron">[ˋbɔrɪŋ]</div><div class="vc-pos">adj.</div><hr class="vc-divider"><div class="vc-en">not interesting; dull</div><div class="vc-zh">令人無聊的</div></div>
+        <div class="vc"><div class="vc-word">waste</div><div class="vc-pron">[west]</div><div class="vc-pos">v.</div><hr class="vc-divider"><div class="vc-en">to use time / resources badly</div><div class="vc-zh">浪費</div></div>
+        <div class="vc"><div class="vc-word">hang around</div><div class="vc-pron">[hæŋ əˋraʊnd]</div><div class="vc-pos">v. phrase</div><hr class="vc-divider"><div class="vc-en">to spend time doing nothing</div><div class="vc-zh">閒晃、無所事事</div></div>
+        <div class="vc"><div class="vc-word">wonder</div><div class="vc-pron">[ˋwʌndɚ]</div><div class="vc-pos">v.</div><hr class="vc-divider"><div class="vc-en">to feel curious; to ask yourself</div><div class="vc-zh">疑惑；納悶</div></div>
+        <div class="vc"><div class="vc-word">lonely</div><div class="vc-pron">[ˋlonlɪ]</div><div class="vc-pos">adj.</div><hr class="vc-divider"><div class="vc-en">sad because of being alone</div><div class="vc-zh">寂寞的；孤單的</div></div>
+        <div class="vc"><div class="vc-word">point of view</div><div class="vc-pron">[pɔɪnt əv vjuː]</div><div class="vc-pos">n. phrase</div><hr class="vc-divider"><div class="vc-en">a way of thinking about things</div><div class="vc-zh">觀點；看法</div></div>
+        <div class="vc"><div class="vc-word">turning</div><div class="vc-pron">[ˋtɜrnɪŋ]</div><div class="vc-pos">v.</div><hr class="vc-divider"><div class="vc-en">rotating; spinning around</div><div class="vc-zh">旋轉；轉動</div></div>
+        <div class="vc"><div class="vc-word">isolation</div><div class="vc-pron">[ˏaɪsəˋleʃən]</div><div class="vc-pos">n.</div><hr class="vc-divider"><div class="vc-en">state of being cut off from others</div><div class="vc-zh">孤立；隔絕</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ EX 1: FILL IN BLANK ══════════════════════════════════ -->
+  <div id="ex1">
+    <div class="sec-title">✏️ Exercise 1 &nbsp;— Fill in the Blank &nbsp;選詞填空</div>
+    <div class="sec-body">
+      <div class="ex-body">
+        <div class="word-bank">
+          <strong>Word Bank：</strong>
+          boring &nbsp;·&nbsp; wasting &nbsp;·&nbsp; lonely &nbsp;·&nbsp; wonder &nbsp;·&nbsp; turning &nbsp;·&nbsp; isolation
+        </div>
+        <div id="fill-wrap">
+          <div class="fill-item"><span class="num">1.</span><span>I'm sitting here in a</span><input class="fill-blank" data-ans="boring" placeholder="______"><span>room.</span></div>
+          <div class="fill-item"><span class="num">2.</span><span>I'm</span><input class="fill-blank" data-ans="wasting" placeholder="______"><span>my time — there is nothing to do.</span></div>
+          <div class="fill-item"><span class="num">3.</span><span>I feel so</span><input class="fill-blank" data-ans="lonely" placeholder="______"><span>— there is no one around me.</span></div>
+          <div class="fill-item"><span class="num">4.</span><span>I'm</span><input class="fill-blank" data-ans="turning" placeholder="______"><span>my head up and down, looking for something.</span></div>
+          <div class="fill-item"><span class="num">5.</span><input class="fill-blank" data-ans="isolation" placeholder="______"><span>is not good for me — I need people around!</span></div>
+          <div class="fill-item"><span class="num">6.</span><span>Nothing ever happens, and I</span><input class="fill-blank" data-ans="wonder" placeholder="______"><span>why.</span></div>
+        </div>
+        <div style="margin-top:1.4rem;display:flex;gap:.8rem;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="checkFill()">✅ Check 檢查</button>
+          <button class="btn btn-gray"  onclick="resetFill()">🔄 Reset 重置</button>
+        </div>
+        <div class="score-msg" id="fill-score"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ EX 2: WORD MATCH ══════════════════════════════════════ -->
+  <div id="ex2">
+    <div class="sec-title">🔗 Exercise 2 &nbsp;— Word Match &nbsp;中英配對</div>
+    <div class="sec-body">
+      <div class="ex-body">
+        <p class="ex-note">點選左邊的英文單字，再點選右邊對應的中文意思！<br>Click an English word, then click its Chinese meaning!</p>
+        <div class="match-wrap">
+          <div class="match-col" id="mcol-en"></div>
+          <div class="match-col" id="mcol-zh"></div>
+        </div>
+        <button class="btn btn-gray" onclick="buildMatch()">🔄 Shuffle &amp; Reset 重新洗牌</button>
+        <div class="score-msg" id="match-score"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ EX 3: TRUE / FALSE ════════════════════════════════════ -->
+  <div id="ex3">
+    <div class="sec-title">🙋 Exercise 3 &nbsp;— True or False &nbsp;真假大考驗</div>
+    <div class="sec-body">
+      <div class="ex-body">
+        <p class="ex-note">Read each sentence and click TRUE or FALSE！<br>讀每個句子，判斷是 TRUE（對）還是 FALSE（錯）！</p>
+        <div id="tf-wrap"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DISCUSSION ═══════════════════════════════════════════ -->
+  <div id="discuss">
+    <div class="sec-title">💬 Discussion &nbsp;討論時間</div>
+    <div class="sec-body">
+      <ul class="disc-list">
+        <li class="disc-item">
+          <span class="disc-num">1</span>
+          <div>
+            <div class="disc-q">Have you ever felt <strong>bored</strong> or <strong>lonely</strong> on a Sunday afternoon? What did you do?</div>
+            <div class="disc-zh">你有沒有曾在週日午後感到無聊或寂寞？你做了什麼？</div>
+          </div>
+        </li>
+        <li class="disc-item">
+          <span class="disc-num">2</span>
+          <div>
+            <div class="disc-q">The singer keeps seeing a "yellow lemon-tree" instead of the "blue sky." What do you think the <strong>lemon-tree</strong> represents?</div>
+            <div class="disc-zh">歌手一直看到「黃色的檸檬樹」而非「藍天」，你認為檸檬樹象徵什麼？</div>
+          </div>
+        </li>
+        <li class="disc-item">
+          <span class="disc-num">3</span>
+          <div>
+            <div class="disc-q">The song says <em>"Isolation is not good for me."</em> Do you agree? Why or why not?</div>
+            <div class="disc-zh">歌曲說「孤獨對我不好」，你同意嗎？為什麼？</div>
+          </div>
+        </li>
+        <li class="disc-item">
+          <span class="disc-num">4</span>
+          <div>
+            <div class="disc-q">What would <strong>you</strong> do to escape a boring, rainy Sunday? Write 2–3 sentences!</div>
+            <div class="disc-zh">如果你遇到無聊的下雨天週日，你會怎麼做？寫 2–3 句話！</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <p>🍋 Lemon Tree English Learning &nbsp;·&nbsp; Fool's Garden (1995)</p>
+  <p style="margin-top:.5rem;color:#74b896;font-size:.82rem">英文歌曲互動學習網頁</p>
+</footer>
+
+<!-- ══ JAVASCRIPT ════════════════════════════════════════════ -->
+<script>
+/* ── Fill in the Blank ──────────────────────────────────────── */
+function checkFill(){
+  const inputs=document.querySelectorAll('.fill-blank');
+  let ok=0;
+  inputs.forEach(inp=>{
+    inp.classList.remove('correct','wrong');
+    if(inp.value.trim().toLowerCase()===inp.dataset.ans){inp.classList.add('correct');ok++;}
+    else inp.classList.add('wrong');
+  });
+  const msg=document.getElementById('fill-score');
+  const total=inputs.length;
+  if(ok===total){msg.textContent=`🎉 Perfect！全部答對！${ok}/${total}`;msg.style.color='var(--ok)';}
+  else{msg.textContent=`${ok}/${total} 答對 — Keep going！繼續加油！`;msg.style.color=ok>=total/2?'var(--mg)':'var(--no)';}
+}
+function resetFill(){
+  document.querySelectorAll('.fill-blank').forEach(i=>{i.value='';i.classList.remove('correct','wrong');});
+  document.getElementById('fill-score').textContent='';
+}
+
+/* ── Word Match ─────────────────────────────────────────────── */
+const pairs=[
+  {en:'boring',     zh:'令人無聊的'},
+  {en:'lonely',     zh:'寂寞的、孤單的'},
+  {en:'wonder',     zh:'疑惑；納悶'},
+  {en:'isolation',  zh:'孤立；隔絕'},
+  {en:'turning',    zh:'旋轉；轉動'},
+  {en:'waste',      zh:'浪費'},
+  {en:'hang around',zh:'閒晃'},
+  {en:'point of view',zh:'觀點；看法'},
+];
+let selEn=null,selZh=null,matched=0;
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function buildMatch(){
+  matched=0;selEn=null;selZh=null;
+  const ce=document.getElementById('mcol-en');
+  const cz=document.getElementById('mcol-zh');
+  ce.innerHTML='';cz.innerHTML='';
+  document.getElementById('match-score').textContent='';
+  shuffle([...pairs]).forEach(p=>{
+    const el=document.createElement('div');
+    el.className='m-item';el.textContent=p.en;
+    el.dataset.key=p.en;el.dataset.side='en';
+    el.onclick=()=>pickMatch(el);ce.appendChild(el);
+  });
+  shuffle([...pairs]).forEach(p=>{
+    const el=document.createElement('div');
+    el.className='m-item';el.textContent=p.zh;
+    el.dataset.key=p.en;el.dataset.side='zh';
+    el.onclick=()=>pickMatch(el);cz.appendChild(el);
+  });
+}
+
+function pickMatch(el){
+  if(el.classList.contains('matched'))return;
+  const side=el.dataset.side;
+  document.querySelectorAll('.m-item.wrong').forEach(e=>{e.classList.remove('wrong','sel');});
+  if(side==='en'){if(selEn)selEn.classList.remove('sel');selEn=el;}
+  else           {if(selZh)selZh.classList.remove('sel');selZh=el;}
+  el.classList.add('sel');
+
+  if(selEn&&selZh){
+    if(selEn.dataset.key===selZh.dataset.key){
+      [selEn,selZh].forEach(e=>{e.classList.remove('sel');e.classList.add('matched');});
+      matched++;
+      selEn=null;selZh=null;
+      if(matched===pairs.length){
+        const m=document.getElementById('match-score');
+        m.textContent='🎉 全部配對成功！Excellent!';m.style.color='var(--ok)';
+      }
+    } else {
+      const e=selEn,z=selZh;
+      [e,z].forEach(x=>x.classList.add('wrong'));
+      selEn=null;selZh=null;
+      setTimeout(()=>{[e,z].forEach(x=>x.classList.remove('wrong','sel'));},800);
+    }
+  }
+}
+
+/* ── True / False ───────────────────────────────────────────── */
+const tfData=[
+  {q:'"Boring" means there are too many exciting things to do. &nbsp;<span style="color:var(--gy)">(無聊 = 有很多好玩的事？)</span>',
+   ans:false, exp:'❌ Boring = NOTHING interesting to do.  無聊 = 沒什麼有趣的事做。'},
+  {q:'In the song, the singer feels lonely and is waiting for someone. &nbsp;<span style="color:var(--gy)">(歌手感到寂寞、在等某人？)</span>',
+   ans:true,  exp:'✅ Correct! "I feel so lonely, I\'m waiting for you."'},
+  {q:'The singer says "Isolation is good for me." &nbsp;<span style="color:var(--gy)">(歌手說孤獨對他很好？)</span>',
+   ans:false, exp:'❌ The song says "Isolation is NOT good for me."'},
+  {q:'The singer can clearly see a beautiful blue sky. &nbsp;<span style="color:var(--gy)">(歌手看到美麗的藍天？)</span>',
+   ans:false, exp:'❌ He only sees a "yellow lemon-tree," not the blue sky.'},
+  {q:'"Wonder" in the song means to feel curious or puzzled. &nbsp;<span style="color:var(--gy)">(wonder = 感到疑惑？)</span>',
+   ans:true,  exp:'✅ Correct! Wonder = 疑惑、納悶。'},
+  {q:'The phrase "heavy cloud inside my head" is a metaphor for a sad feeling. &nbsp;<span style="color:var(--gy)">(腦中的烏雲是比喻悲傷？)</span>',
+   ans:true,  exp:'✅ Correct! It\'s a metaphor — not a real cloud! 這是比喻，不是真的烏雲。'},
+];
+
+function buildTF(){
+  const wrap=document.getElementById('tf-wrap');
+  wrap.innerHTML='';
+  tfData.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='tf-item';
+    div.innerHTML=`
+      <div class="tf-q">${i+1}. ${item.q}</div>
+      <div class="tf-btns">
+        <button class="tf-btn t" onclick="answerTF(this,true,${i})">TRUE ✓</button>
+        <button class="tf-btn f" onclick="answerTF(this,false,${i})">FALSE ✗</button>
+      </div>
+      <div class="tf-exp" id="exp-${i}">${item.exp}</div>`;
+    wrap.appendChild(div);
+  });
+}
+
+function answerTF(btn,chosen,idx){
+  const item=tfData[idx];
+  const btns=btn.parentElement.querySelectorAll('.tf-btn');
+  btns.forEach(b=>b.disabled=true);
+  if(chosen===item.ans){
+    btn.classList.add('right');
+  } else {
+    btn.classList.add('wrong2');
+    btns.forEach(b=>{
+      const isT=b.classList.contains('t');
+      if((isT&&item.ans)||(!isT&&!item.ans))b.classList.add('right');
+    });
+  }
+  document.getElementById(`exp-${idx}`).classList.add('show');
+}
+
+/* ── Video: 點縮圖 → 頁面內播放 ──────────────── */
+function playVideo(){
+  const player = document.getElementById('yt-player');
+  const wrap = document.createElement('div');
+  wrap.className = 'yt-iframe-wrap';
+  wrap.innerHTML =
+    '<iframe src="https://www.youtube.com/embed/LioMa_B9X_o?autoplay=1&rel=0"' +
+    ' allow="accelerometer; autoplay; clipboard-write; encrypted-media;' +
+    ' gyroscope; picture-in-picture" allowfullscreen></iframe>';
+  player.replaceWith(wrap);
+}
+
+/* ── Init ─────────────────────────────────────────────────── */
+buildMatch();
+buildTF();
+</script>
+</body>
+</html>
