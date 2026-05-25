@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 5 文法講義 — I Felt the Floor Shaking</title>
+  <style>
+    :root {
+      --blue:   #2563eb;
+      --blue-l: #dbeafe;
+      --green:  #16a34a;
+      --green-l:#dcfce7;
+      --purple: #7c3aed;
+      --purple-l:#ede9fe;
+      --orange: #ea580c;
+      --orange-l:#ffedd5;
+      --gray:   #374151;
+      --bg:     #f9fafb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Helvetica Neue", Arial, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--gray);
+      line-height: 1.9;
+      font-size: 22px;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: #fff;
+      padding: 36px 24px 28px;
+      text-align: center;
+    }
+    .site-header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      border-radius: 20px;
+      font-size: 18px;
+      padding: 4px 16px;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .site-header h1 { font-size: 34px; font-weight: 700; }
+    .site-header p  { font-size: 20px; opacity: 0.85; margin-top: 6px; }
+
+    /* ── Nav tabs ── */
+    .tab-bar {
+      display: flex;
+      background: #fff;
+      border-bottom: 2px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .tab-bar button {
+      flex: 1;
+      padding: 16px 8px;
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      font-weight: 600;
+      color: #6b7280;
+      cursor: pointer;
+      transition: color .2s, border-bottom .2s;
+      border-bottom: 3px solid transparent;
+    }
+    .tab-bar button.active {
+      color: var(--blue);
+      border-bottom: 3px solid var(--blue);
+    }
+
+    /* ── Main layout ── */
+    main { max-width: 800px; margin: 0 auto; padding: 20px 16px 60px; }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── Section cards ── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      padding: 20px 20px 16px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .card-title .num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800; color: #fff;
+      flex-shrink: 0;
+    }
+    .num-blue   { background: var(--blue); }
+    .num-green  { background: var(--green); }
+    .num-purple { background: var(--purple); }
+
+    /* ── Definition box ── */
+    .def-box {
+      background: var(--blue-l);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 20px;
+    }
+
+    /* ── Pattern box ── */
+    .pattern {
+      background: #f0f9ff;
+      border: 1.5px solid #bae6fd;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-family: monospace;
+      font-size: 20px;
+      margin: 12px 0;
+      text-align: center;
+    }
+    .pattern strong { color: var(--blue); }
+
+    /* ── Table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 19px;
+      margin: 12px 0;
+    }
+    th {
+      background: var(--blue);
+      color: #fff;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid #e5e7eb; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    td em { color: var(--blue); font-style: normal; font-weight: 600; }
+
+    /* ── Compare box ── */
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 12px 0;
+    }
+    .compare-item {
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .compare-item h4 { font-size: 19px; margin-bottom: 8px; }
+    .compare-item p  { font-size: 19px; }
+
+    /* ── Verb list ── */
+    .verb-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .verb-chip {
+      background: var(--blue-l);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 19px;
+    }
+    .verb-chip strong { color: var(--blue); display: block; }
+    .verb-chip span   { font-size: 16px; color: #555; }
+
+    /* ── Pronoun grid ── */
+    .pronoun-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .pro-cell {
+      background: var(--purple-l);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      font-size: 19px;
+    }
+    .pro-cell .label { font-size: 15px; color: #6b21a8; margin-bottom: 4px; }
+    .pro-cell strong { color: var(--purple); font-size: 22px; }
+
+    /* ── Example ── */
+    .ex { font-size: 20px; margin: 8px 0; padding-left: 16px; border-left: 3px solid #e5e7eb; }
+    .ex .en { color: var(--blue); }
+    .ex .zh { color: #6b7280; font-size: 18px; }
+
+    /* ── Note box ── */
+    .note {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 19px;
+      margin: 12px 0;
+    }
+    .note::before { content: "⚠️ "; }
+
+    /* ── Not-only box ── */
+    .notonly-pattern {
+      background: var(--green-l);
+      border-left: 4px solid var(--green);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 12px 0;
+      font-size: 20px;
+    }
+    .notonly-pattern strong { color: var(--green); }
+
+    /* =========================================
+       QUIZ PAGE
+       ========================================= */
+    .quiz-intro {
+      text-align: center;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      margin-bottom: 20px;
+    }
+    .quiz-intro h2 { font-size: 28px; color: var(--blue); }
+    .quiz-intro p  { font-size: 20px; color: #6b7280; margin-top: 6px; }
+
+    .q-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      padding: 22px 22px 18px;
+      margin-bottom: 20px;
+    }
+    .q-num {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 8px;
+    }
+    .q-text {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+    .q-text .blank {
+      display: inline-block;
+      min-width: 80px;
+      border-bottom: 2px solid #93c5fd;
+      text-align: center;
+      color: var(--blue);
+    }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .opt {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 21px;
+      transition: background .15s, border-color .15s;
+      user-select: none;
+    }
+    .opt:hover { background: #f0f9ff; border-color: #93c5fd; }
+    .opt.selected { background: #dbeafe; border-color: var(--blue); }
+    .opt.correct  { background: #dcfce7; border-color: var(--green); }
+    .opt.wrong    { background: #fee2e2; border-color: #ef4444; }
+    .opt .letter {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700;
+      flex-shrink: 0;
+      transition: background .15s;
+    }
+    .opt.selected .letter { background: var(--blue); color: #fff; }
+    .opt.correct  .letter { background: var(--green); color: #fff; }
+    .opt.wrong    .letter { background: #ef4444; color: #fff; }
+
+    .feedback {
+      display: none;
+      margin-top: 12px;
+      font-size: 19px;
+      padding: 10px 16px;
+      border-radius: 8px;
+    }
+    .feedback.correct { display: block; background: var(--green-l); color: #15803d; }
+    .feedback.wrong   { display: block; background: #fee2e2; color: #b91c1c; }
+
+    /* Submit & Score */
+    .submit-wrap { text-align: center; margin: 24px 0; }
+    .btn-submit {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 16px 52px;
+      font-size: 22px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .btn-submit:hover { opacity: .85; }
+
+    .score-box {
+      display: none;
+      text-align: center;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.1);
+      padding: 36px 24px;
+      margin: 24px 0;
+    }
+    .score-box .big { font-size: 64px; font-weight: 800; color: var(--blue); }
+    .score-box .msg { font-size: 24px; margin-top: 10px; }
+    .btn-retry {
+      display: inline-block;
+      margin-top: 20px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 14px 40px;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .pronoun-grid { grid-template-columns: repeat(2, 1fr); }
+      .compare { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════ HEADER ════════════════════════ -->
+<div class="site-header">
+  <div class="badge">國中英語 2下 · Lesson 5</div>
+  <h1>I Felt the Floor Shaking</h1>
+  <p>文法講義 + 互動小考 ｜ 點選下方分頁切換</p>
+</div>
+
+<!-- ════════════════════════ TAB BAR ════════════════════════ -->
+<div class="tab-bar">
+  <button class="active" onclick="switchTab('grammar', this)">📖 文法講義</button>
+  <button onclick="switchTab('quiz', this)">✏️ 互動小考</button>
+</div>
+
+<main>
+
+<!-- ════════════════════════ GRAMMAR PAGE ════════════════════════ -->
+<div id="grammar" class="page active">
+
+  <!-- ── Section 1: 感官動詞 ── -->
+  <div class="card">
+    <div class="card-title">
+      <span class="num num-blue">1</span>
+      感官動詞的用法
+    </div>
+
+    <div class="def-box">
+      <strong>定義：</strong>用來表達透過身體五官感覺到某人事物的動作的動詞。
+    </div>
+
+    <p style="font-size:20px;margin-bottom:10px;font-weight:600;">▸ 常見感官動詞比較：</p>
+    <table>
+      <tr>
+        <th>動詞</th><th>中文</th><th>特色</th>
+      </tr>
+      <tr><td><em>look at</em></td><td>注視</td><td>刻意地看</td></tr>
+      <tr><td><em>see</em></td><td>看</td><td>視覺、無意間看到</td></tr>
+      <tr><td><em>watch</em></td><td>觀看</td><td>長時間觀看</td></tr>
+      <tr><td><em>listen to</em></td><td>傾聽</td><td>刻意地聽</td></tr>
+      <tr><td><em>hear</em></td><td>聽到</td><td>聽覺、無意間聽到</td></tr>
+      <tr><td><em>feel</em></td><td>感覺</td><td>身體感覺</td></tr>
+      <tr><td><em>notice</em></td><td>注意到</td><td>察覺、留意到</td></tr>
+    </table>
+
+    <p style="font-size:20px;margin: 14px 0 8px;font-weight:600;">▸ 核心句型：</p>
+    <div class="pattern">
+      主詞 ＋ <strong>感官動詞</strong> ＋ 受詞 ＋ <strong>原形動詞</strong> / <strong>V-ing</strong>
+    </div>
+
+    <div class="compare">
+      <div class="compare-item" style="background:var(--blue-l);">
+        <h4 style="color:var(--blue);">✦ 原形動詞</h4>
+        <p>強調<strong>事實</strong>，表達完整動作過程</p>
+        <div class="ex" style="margin-top:6px;">
+          <p class="en">We saw the police <u>leave</u>.</p>
+          <p class="zh">（我們看見警察們離開。）</p>
+        </div>
+      </div>
+      <div class="compare-item" style="background:#f0fdf4;">
+        <h4 style="color:var(--green);">✦ V-ing（現在分詞）</h4>
+        <p>強調<strong>動作進行中</strong>，正在發生</p>
+        <div class="ex" style="margin-top:6px;">
+          <p class="en">Leo felt the house <u>shaking</u>.</p>
+          <p class="zh">（Leo 感覺到房子在搖晃。）</p>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:20px;margin: 14px 0 8px;font-weight:600;">▸ 更多例句：</p>
+    <div class="ex"><p class="en">Sandy heard her baby <u>crying</u>.</p><p class="zh">Sandy 聽見她的寶寶在哭。</p></div>
+    <div class="ex"><p class="en">Al watched the kid <u>play</u> soccer.</p><p class="zh">Al 看著那小孩踢足球。</p></div>
+    <div class="ex"><p class="en">Gary noticed his dad <u>falling</u> asleep.</p><p class="zh">Gary 注意到他爸爸睡著了。</p></div>
+
+    <div class="note" style="margin-top:14px;">
+      <strong>smell</strong> 也可當感官動詞，但受詞後只能接 <strong>V-ing</strong>，不接原形動詞。<br>
+      <span style="color:var(--green)">✓</span> He smelled something <u>burning</u>.<br>
+      <span style="color:#ef4444">✗</span> He smelled something burn.
+    </div>
+
+    <div class="note">
+      <strong>連綴動詞 vs. 感官動詞（feel 為例）</strong><br>
+      連綴動詞：He felt <u>sad</u>.（形容詞修飾<strong>主詞</strong>）<br>
+      感官動詞：He felt his heart <u>beating</u> fast.（分詞修飾<strong>受詞</strong>）
+    </div>
+  </div>
+
+  <!-- ── Section 2: 反身代名詞 ── -->
+  <div class="card">
+    <div class="card-title">
+      <span class="num num-purple">2</span>
+      反身代名詞的用法
+    </div>
+
+    <div class="def-box" style="background:var(--purple-l);border-color:var(--purple);">
+      <strong>定義：</strong>當主詞與受詞是同一人時，使用反身代名詞，表示「行為的對象是本身」。
+    </div>
+
+    <div class="pronoun-grid">
+      <div class="pro-cell"><div class="label">我（第一人稱 單）</div><strong>myself</strong></div>
+      <div class="pro-cell"><div class="label">你（第二人稱 單）</div><strong>yourself</strong></div>
+      <div class="pro-cell"><div class="label">他（第三人稱 單）</div><strong>himself</strong></div>
+      <div class="pro-cell"><div class="label">她（第三人稱 單）</div><strong>herself</strong></div>
+      <div class="pro-cell"><div class="label">它/牠（第三人稱 單）</div><strong>itself</strong></div>
+      <div class="pro-cell"><div class="label">我們（第一人稱 複）</div><strong>ourselves</strong></div>
+      <div class="pro-cell"><div class="label">你們（第二人稱 複）</div><strong>yourselves</strong></div>
+      <div class="pro-cell" style="grid-column: span 2;"><div class="label">他們/她們/它們（第三人稱 複）</div><strong>themselves</strong></div>
+    </div>
+
+    <p style="font-size:20px;margin: 14px 0 8px;font-weight:600;">▸ 用法一：當動詞或介系詞的受詞</p>
+    <div class="ex"><p class="en">Gina talked to <u>herself</u> in the room.</p><p class="zh">Gina 在房間自言自語。</p></div>
+    <div class="ex"><p class="en">Ken looked at <u>himself</u> in the mirror.</p><p class="zh">Ken 看著鏡中的自己。</p></div>
+
+    <p style="font-size:20px;margin: 14px 0 8px;font-weight:600;">▸ 用法二：by + 反身代名詞 ＝「獨自 / 自己完成」</p>
+    <div class="pattern" style="background:#f5f3ff;border-color:#c4b5fd;">
+      <strong style="color:var(--purple);">by + 反身代名詞</strong>  ＝  on one's own
+    </div>
+    <div class="ex"><p class="en">Ed did it <u>by himself</u>. ＝ Ed did it <u>on his own</u>.</p><p class="zh">Ed 獨自完成它。</p></div>
+  </div>
+
+  <!-- ── Section 3: not only...but also... ── -->
+  <div class="card">
+    <div class="card-title">
+      <span class="num num-green">3</span>
+      not only … but also … 的用法
+    </div>
+
+    <div class="def-box" style="background:var(--green-l);border-color:var(--green);">
+      <strong>定義：</strong>對等連接詞，表示「不僅……而且……」。<br>
+      <strong style="color:var(--green)">also 可省略。</strong>後面須連接相同詞性的字詞或句子。
+    </div>
+
+    <p style="font-size:20px;margin: 14px 0 8px;font-weight:600;">▸ 三種連接方式：</p>
+
+    <div class="notonly-pattern">
+      <strong>① 連接兩個主詞</strong>→ 動詞依 <strong>but also 後面的主詞</strong>單複數變化<br>
+      <div class="ex" style="margin-top:6px;"><p class="en">Not only I but also Ken <u>is</u> a student.</p><p class="zh">不只我，Ken 也是學生。</p></div>
+    </div>
+
+    <div class="notonly-pattern">
+      <strong>② 連接兩個動詞</strong>→ 時態須一致<br>
+      <div class="ex" style="margin-top:6px;"><p class="en">My mom not only <u>went</u> shopping but also <u>had</u> lunch with her friend.</p><p class="zh">我媽媽今天不僅去購物，還和朋友共進午餐。</p></div>
+    </div>
+
+    <div class="notonly-pattern">
+      <strong>③ 連接兩個受詞</strong><br>
+      <div class="ex" style="margin-top:6px;"><p class="en">Amy enjoyed not only <u>the meal</u> but also <u>the talk</u> with her family.</p><p class="zh">Amy 不但享受餐點，也享受和家人聊天。</p></div>
+    </div>
+  </div>
+
+</div><!-- /grammar page -->
+
+
+<!-- ════════════════════════ QUIZ PAGE ════════════════════════ -->
+<div id="quiz" class="page">
+
+  <div class="quiz-intro">
+    <h2>✏️ Lesson 5 文法小考</h2>
+    <p>共 10 題選擇題 ｜ 選完後按「送出答案」查看成績</p>
+  </div>
+
+  <div id="quiz-form">
+
+    <!-- Q1 -->
+    <div class="q-card" data-answer="A">
+      <div class="q-num">第 1 題 — 感官動詞</div>
+      <div class="q-text">They watched Jeremy Lin <span class="blank">___</span> basketball in the gym yesterday.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> play</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> to play</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> played</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> plays</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-card" data-answer="B">
+      <div class="q-num">第 2 題 — 感官動詞</div>
+      <div class="q-text">I heard a woman <span class="blank">___</span> outside my house yesterday.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> cries</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> crying</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> to cry</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> cried</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-card" data-answer="C">
+      <div class="q-num">第 3 題 — 感官動詞</div>
+      <div class="q-text">When Tom got home, he smelled something <span class="blank">___</span> in the kitchen.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> cook</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> to cook</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> cooking</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> cooked</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-card" data-answer="A">
+      <div class="q-num">第 4 題 — 感官動詞</div>
+      <div class="q-text">After all the lights went out, we heard someone <span class="blank">___</span> outside.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> shout</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> shouted</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> to shout</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> shouts</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-card" data-answer="B">
+      <div class="q-num">第 5 題 — 反身代名詞</div>
+      <div class="q-text">John's parents won't be home for a week. He has to take care of <span class="blank">___</span>.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> herself</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> himself</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> themselves</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> ourselves</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="q-card" data-answer="D">
+      <div class="q-num">第 6 題 — 反身代名詞</div>
+      <div class="q-text">A: Where did you buy the card? &nbsp; B: I didn't buy it. I made it <span class="blank">___</span>.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> my</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> me</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> mine</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> myself</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="q-card" data-answer="C">
+      <div class="q-num">第 7 題 — 反身代名詞</div>
+      <div class="q-text">Welcome to my house, George and Mary. Please make <span class="blank">___</span> at home.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> myself</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> yourself</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> yourselves</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> themselves</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="q-card" data-answer="A">
+      <div class="q-num">第 8 題 — 反身代名詞</div>
+      <div class="q-text">Frank has to take care of his children <span class="blank">___</span>. No one helps him.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> by himself</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> by herself</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> by yourself</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> by themselves</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="q-card" data-answer="C">
+      <div class="q-num">第 9 題 — not only … but also …</div>
+      <div class="q-text">Not only you but also John <span class="blank">___</span> wrong.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> am</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> are</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> is</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> were</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="q-card" data-answer="B">
+      <div class="q-num">第 10 題 — not only … but also …</div>
+      <div class="q-text">Jay Chou can not only <span class="blank">___</span> but also write songs.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">A</span> singing</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">B</span> sing</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">C</span> to sing</div>
+        <div class="opt" onclick="selectOpt(this)"><span class="letter">D</span> sang</div>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+  </div><!-- /quiz-form -->
+
+  <div class="submit-wrap">
+    <button class="btn-submit" onclick="submitQuiz()">送出答案 ✓</button>
+  </div>
+
+  <div class="score-box" id="score-box">
+    <div class="big" id="score-num"></div>
+    <div class="msg" id="score-msg"></div>
+    <button class="btn-retry" onclick="retryQuiz()">再試一次 🔄</button>
+  </div>
+
+</div><!-- /quiz page -->
+
+</main>
+
+<script>
+  /* ── Tab switching ── */
+  function switchTab(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  /* ── Option selection ── */
+  function selectOpt(el) {
+    const card = el.closest('.q-card');
+    if (card.dataset.answered) return;
+    card.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  /* ── Submit ── */
+  function submitQuiz() {
+    const cards = document.querySelectorAll('.q-card');
+    let answered = 0, correct = 0;
+
+    cards.forEach(card => {
+      const selected = card.querySelector('.opt.selected');
+      if (!selected) return;
+      answered++;
+      card.dataset.answered = '1';
+
+      const letters = ['A','B','C','D'];
+      const opts = card.querySelectorAll('.opt');
+      const selectedIdx = [...opts].indexOf(selected);
+      const userLetter = letters[selectedIdx];
+      const correctLetter = card.dataset.answer;
+      const feedback = card.querySelector('.feedback');
+
+      // Disable further clicking
+      opts.forEach(o => o.style.cursor = 'default');
+
+      if (userLetter === correctLetter) {
+        selected.classList.add('correct');
+        correct++;
+        feedback.textContent = '✓ 正確！答得很好！';
+        feedback.className = 'feedback correct';
+      } else {
+        selected.classList.add('wrong');
+        // Highlight correct
+        opts[letters.indexOf(correctLetter)].classList.add('correct');
+        feedback.textContent = `✗ 正確答案是 (${correctLetter})`;
+        feedback.className = 'feedback wrong';
+      }
+    });
+
+    if (answered < cards.length) {
+      alert(`你還有 ${cards.length - answered} 題尚未作答，請全部選完再送出！`);
+      return;
+    }
+
+    // Show score
+    const pct = Math.round(correct / cards.length * 100);
+    document.getElementById('score-num').textContent = `${correct} / ${cards.length}`;
+    const msgs = ['繼續加油，再試一次！💪','還不錯，再複習一下！📚','表現不錯！繼續努力！👍','太棒了！幾乎全對！🌟','完美滿分！超厲害！🏆'];
+    const idx = Math.floor(pct / 20);
+    document.getElementById('score-msg').textContent = msgs[Math.min(idx, 4)];
+    document.getElementById('score-box').style.display = 'block';
+    document.querySelector('.btn-submit').style.display = 'none';
+    document.getElementById('score-box').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* ── Retry ── */
+  function retryQuiz() {
+    document.querySelectorAll('.q-card').forEach(card => {
+      delete card.dataset.answered;
+      card.querySelectorAll('.opt').forEach(o => {
+        o.classList.remove('selected','correct','wrong');
+        o.style.cursor = 'pointer';
+      });
+      const fb = card.querySelector('.feedback');
+      fb.className = 'feedback';
+      fb.textContent = '';
+    });
+    document.getElementById('score-box').style.display = 'none';
+    document.querySelector('.btn-submit').style.display = 'inline-block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

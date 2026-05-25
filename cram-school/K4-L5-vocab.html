@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K4 L5 單字 & 片語複習講義</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* ── 基礎設定 ── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #1a2e1a;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 28px,
+        rgba(255,255,255,0.03) 28px,
+        rgba(255,255,255,0.03) 29px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 28px,
+        rgba(255,255,255,0.02) 28px,
+        rgba(255,255,255,0.02) 29px
+      );
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 18px;
+    color: #f0ece0;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  /* ── 黑板邊框 ── */
+  .blackboard {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #2d4a2d;
+    border: 18px solid #5c3d1e;
+    border-radius: 6px;
+    box-shadow:
+      inset 0 0 60px rgba(0,0,0,0.4),
+      0 8px 32px rgba(0,0,0,0.6),
+      inset 0 0 0 3px rgba(255,255,255,0.05);
+    padding: 40px 50px 60px;
+    position: relative;
+  }
+
+  /* 粉筆灰塵效果 */
+  .blackboard::before {
+    content: '';
+    position: absolute;
+    bottom: -14px;
+    left: 10%;
+    right: 10%;
+    height: 6px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(240,236,224,0.15) 20%,
+      rgba(240,236,224,0.25) 50%,
+      rgba(240,236,224,0.15) 80%,
+      transparent 100%
+    );
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+
+  /* 粉筆盒 */
+  .chalk-tray {
+    position: absolute;
+    bottom: -22px;
+    left: 5%;
+    right: 5%;
+    height: 14px;
+    background: #4a2c0f;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+  }
+
+  /* ── 標題區 ── */
+  .title-area {
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 2px dashed rgba(255,255,255,0.25);
+    padding-bottom: 28px;
+  }
+
+  .title-main {
+    font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fffde0;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(255,255,100,0.2);
+    letter-spacing: 2px;
+  }
+
+  .title-sub {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #c8e6c9;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  .title-tag {
+    display: inline-block;
+    background: rgba(255,200,0,0.15);
+    border: 1px solid rgba(255,200,0,0.4);
+    color: #ffe082;
+    padding: 5px 18px;
+    border-radius: 20px;
+    margin-top: 12px;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  /* ── 區塊標題 ── */
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-title {
+    font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ffe082;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid rgba(255,224,130,0.3);
+    padding-bottom: 10px;
+  }
+
+  .section-title .emoji {
+    font-size: 1.7rem;
+  }
+
+  /* ── 表格 ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+    font-size: 1.1rem;
+  }
+
+  thead th {
+    background: rgba(255,255,255,0.1);
+    color: #a5d6a7;
+    font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 2px solid rgba(165,214,167,0.4);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.09);
+    transition: background 0.2s;
+  }
+
+  tbody tr:hover {
+    background: rgba(255,255,255,0.06);
+  }
+
+  tbody td {
+    padding: 12px 14px;
+    vertical-align: middle;
+    line-height: 1.6;
+  }
+
+  /* 行號欄 */
+  td.num {
+    color: rgba(255,255,255,0.35);
+    font-size: 1rem;
+    width: 32px;
+    text-align: center;
+  }
+
+  /* 英文單字 */
+  td.word {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #fff9c4;
+    white-space: nowrap;
+  }
+
+  td.word .irregular {
+    font-size: 1rem;
+    color: #ff8a65;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 700;
+    display: block;
+  }
+
+  /* 詞性 */
+  td.pos {
+    font-size: 1rem;
+    color: #80cbc4;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+
+  /* 中文 */
+  td.zh {
+    font-size: 1.15rem;
+    color: #e8f5e9;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* 例句 */
+  td.eg {
+    font-size: 1.05rem;
+    color: #cfd8dc;
+    line-height: 1.6;
+  }
+
+  td.eg .highlight {
+    color: #ffe082;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+  }
+
+  /* 中文翻譯欄 */
+  td.eg-zh {
+    font-size: 1rem;
+    color: #b0bec5;
+  }
+
+  /* ── 提示框 ── */
+  .tip-box {
+    background: rgba(255,224,130,0.08);
+    border-left: 4px solid #ffe082;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 20px;
+    margin: 14px 0 22px;
+    font-size: 1.1rem;
+    color: #fff9c4;
+    line-height: 1.9;
+  }
+
+  .tip-box strong {
+    color: #ffe082;
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+
+  /* ── 反身代名詞格 ── */
+  .pronoun-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .pronoun-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 16px 18px;
+    text-align: center;
+  }
+
+  .pronoun-card .base {
+    font-size: 1.05rem;
+    color: #90a4ae;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  .pronoun-card .reflexive {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.9rem;
+    font-weight: 900;
+    color: #ffe082;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .pronoun-card .zh-label {
+    font-size: 1.05rem;
+    color: #a5d6a7;
+    font-weight: 700;
+  }
+
+  .pronoun-card .example {
+    font-size: 0.95rem;
+    color: #78909c;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* ── 感官動詞區塊 ── */
+  .verb-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .verb-badge {
+    background: rgba(129,199,132,0.15);
+    border: 1px solid rgba(129,199,132,0.35);
+    border-radius: 8px;
+    padding: 10px 18px;
+    min-width: 140px;
+    text-align: center;
+  }
+
+  .verb-badge .v-en {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #a5d6a7;
+  }
+
+  .verb-badge .v-zh {
+    font-size: 1rem;
+    color: #80cbc4;
+    font-weight: 700;
+  }
+
+  .formula-box {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 1.1rem;
+    color: #cfd8dc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .formula-box .f-verb {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #ffe082;
+  }
+
+  .formula-box .f-eg {
+    color: #90a4ae;
+    font-size: 1rem;
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+    line-height: 1.6;
+  }
+
+  /* ── not only...but also 區塊 ── */
+  .formula-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+  }
+
+  .formula-card .f-title {
+    font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #80cbc4;
+    margin-bottom: 10px;
+  }
+
+  .formula-card .f-pattern {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #ffe082;
+    margin-bottom: 14px;
+  }
+
+  .formula-card .f-eg-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .formula-card .f-eg-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-size: 1.1rem;
+    color: #cfd8dc;
+    line-height: 1.7;
+  }
+
+  .formula-card .f-eg-list li:last-child {
+    border-bottom: none;
+  }
+
+  .formula-card .f-eg-list li .chalk {
+    color: #ffe082;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.15rem;
+  }
+
+  .formula-card .f-eg-list li .zh {
+    display: block;
+    color: #78909c;
+    font-size: 1rem;
+    margin-top: 3px;
+  }
+
+  /* ── 片語表 ── */
+  .phrase-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+
+  .p-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 14px 18px;
+    border-left: 4px solid rgba(129,199,132,0.5);
+  }
+
+  .p-card .p-en {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #ffe082;
+  }
+
+  .p-card .p-zh {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #a5d6a7;
+    margin: 5px 0;
+  }
+
+  .p-card .p-eg {
+    font-size: 1rem;
+    color: #90a4ae;
+    line-height: 1.6;
+  }
+
+  .p-card .p-eg .hl {
+    color: #fff9c4;
+    font-weight: 700;
+  }
+
+  /* ── 頁腳 ── */
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px dashed rgba(255,255,255,0.15);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* 不規則動詞特殊標記 */
+  .irreg-note {
+    background: rgba(255,138,101,0.1);
+    border: 1px solid rgba(255,138,101,0.3);
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin: 12px 0;
+    font-size: 1.1rem;
+    color: #ffccbc;
+    line-height: 1.8;
+  }
+
+  .irreg-note strong { color: #ff8a65; font-size: 1.15rem; }
+
+  .irreg-table {
+    display: inline-grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 6px 28px;
+    margin-top: 8px;
+  }
+
+  .irreg-table span { font-family: 'Nunito', sans-serif; font-size: 1.2rem; font-weight: 700; }
+  .irreg-table .arrow { color: rgba(255,255,255,0.3); }
+  .irreg-table .past { color: #ff8a65; font-weight: 900; }
+  .irreg-table .base-f { color: #ffe082; }
+
+  /* ══ 字卡系統 ══ */
+  .flashcard-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 0;
+    padding: 11px 24px;
+    background: rgba(255,224,130,0.1);
+    border: 2px solid rgba(255,224,130,0.45);
+    border-radius: 30px;
+    color: #ffe082;
+    font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .flashcard-toggle:hover {
+    background: rgba(255,224,130,0.2);
+    border-color: #ffe082;
+  }
+
+  .flashcard-toggle .toggle-arrow {
+    display: inline-block;
+    transition: transform 0.3s;
+    font-size: 0.9rem;
+  }
+
+  .flashcard-toggle.open .toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  .flashcard-section {
+    display: none;
+    margin-top: 4px;
+    padding: 20px 4px 8px;
+    border-top: 1px dashed rgba(255,224,130,0.2);
+  }
+
+  .flashcard-section.visible {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .flashcard-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .flashcard-controls span {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .fc-ctrl-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: #cfd8dc;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .fc-ctrl-btn:hover {
+    background: rgba(255,255,255,0.12);
+  }
+
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 14px;
+  }
+
+  /* 字卡外框 */
+  .fc-wrap {
+    perspective: 700px;
+    height: 150px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .fc-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .fc-wrap.flipped .fc-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* 正面 & 背面共用 */
+  .fc-front,
+  .fc-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 10px;
+    text-align: center;
+  }
+
+  /* 正面：英文 */
+  .fc-front {
+    background: linear-gradient(145deg, #1f3d20, #2a4e2a);
+    border: 2px solid rgba(255,224,130,0.35);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .fc-front:hover {
+    border-color: rgba(255,224,130,0.7);
+  }
+
+  .fc-front .fc-word {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #fff9c4;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .fc-front .fc-hint {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.28);
+  }
+
+  /* 背面：中文 */
+  .fc-back {
+    background: linear-gradient(145deg, #1a3a3a, #1e4040);
+    border: 2px solid rgba(129,199,132,0.45);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transform: rotateY(180deg);
+  }
+
+  .fc-back .fc-zh {
+    font-size: 1.45rem;
+    font-weight: 900;
+    color: #a5d6a7;
+    line-height: 1.4;
+  }
+
+  .fc-back .fc-pos {
+    margin-top: 7px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #80cbc4;
+  }
+
+  .fc-back .fc-en-small {
+    margin-top: 5px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.3);
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* ── 手機版 ── */
+  @media (max-width: 650px) {
+    body { font-size: 16px; }
+    .blackboard { padding: 24px 18px 50px; border-width: 10px; }
+    .title-main { font-size: 2rem; }
+    .title-sub { font-size: 1.2rem; }
+    .section-title { font-size: 1.5rem; }
+    .phrase-card { grid-template-columns: 1fr; }
+    .pronoun-grid { grid-template-columns: repeat(2, 1fr); }
+    table { font-size: 0.95rem; }
+    td.word { font-size: 1.15rem; }
+  }
+</style>
+</head>
+<body>
+<div class="blackboard">
+
+  <!-- ══ 標題 ══ -->
+  <div class="title-area">
+    <div class="title-main">📖 K4 L5 單字 &amp; 片語複習</div>
+    <div class="title-sub">Vocabulary &amp; Phrase Review</div>
+    <span class="title-tag">🎯 適合英文程度較弱的國中生使用</span>
+  </div>
+
+  <!-- ══ 一、天災主題單字 ══ -->
+  <div class="section">
+    <div class="section-title"><span class="emoji">⛈️</span> 一、主題單字：天災</div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>英文單字</th>
+          <th>詞性</th>
+          <th>中文意思</th>
+          <th>例句</th>
+          <th>中文翻譯</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">1</td>
+          <td class="word">earthquake</td>
+          <td class="pos">n. 名詞</td>
+          <td class="zh">地震</td>
+          <td class="eg">The <span class="highlight">earthquake</span> hit the city.</td>
+          <td class="eg-zh">地震襲擊了這座城市。</td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td class="word">typhoon</td>
+          <td class="pos">n. 名詞</td>
+          <td class="zh">颱風</td>
+          <td class="eg"><span class="highlight">Typhoon</span> Mulan will hit land tomorrow.</td>
+          <td class="eg-zh">颱風木蘭明天將登陸。</td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td class="word">shake / shaking</td>
+          <td class="pos">v. 動詞</td>
+          <td class="zh">搖晃</td>
+          <td class="eg">I felt the floor <span class="highlight">shaking</span>.</td>
+          <td class="eg-zh">我感受到地板在搖晃。</td>
+        </tr>
+        <tr>
+          <td class="num">4</td>
+          <td class="word">land</td>
+          <td class="pos">v. 動詞</td>
+          <td class="zh">登陸</td>
+          <td class="eg">The typhoon will <span class="highlight">land</span> tomorrow.</td>
+          <td class="eg-zh">颱風明天將登陸。</td>
+        </tr>
+        <tr>
+          <td class="num">5</td>
+          <td class="word">hit</td>
+          <td class="pos">v. 動詞</td>
+          <td class="zh">襲擊、打</td>
+          <td class="eg">The earthquake <span class="highlight">hit</span> the city.</td>
+          <td class="eg-zh">地震襲擊了這座城市。</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      💡 <strong>小記憶法：</strong>
+      <code style="color:#ffe082">earthquake</code> = <strong>earth</strong>（地球）+ <strong>quake</strong>（震動）→ 地球震動 = 地震！
+    </div>
+
+    <button class="flashcard-toggle" onclick="toggleFC(this)">
+      🃏 字卡練習 <span class="toggle-arrow">▼</span>
+    </button>
+    <div class="flashcard-section">
+      <div class="flashcard-controls">
+        <span>點一下字卡翻面 👇</span>
+        <button class="fc-ctrl-btn" onclick="flipAll(this)">全部翻面</button>
+        <button class="fc-ctrl-btn" onclick="resetAll(this)">全部重置</button>
+      </div>
+      <div class="flashcard-grid">
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">earthquake</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">地震</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">typhoon</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">颱風</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">shake</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">搖晃</span><span class="fc-pos">v. 動詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">land</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">登陸</span><span class="fc-pos">v. 動詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">hit</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">襲擊、打</span><span class="fc-pos">v. 動詞</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 二、動作動詞 ══ -->
+  <div class="section">
+    <div class="section-title"><span class="emoji">🏃</span> 二、動作動詞</div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>英文單字</th>
+          <th>中文意思</th>
+          <th>原形 → 過去式</th>
+          <th>例句</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">1</td>
+          <td class="word">hold</td>
+          <td class="zh">抓住、握住</td>
+          <td class="pos">hold → held</td>
+          <td class="eg">You should <span class="highlight">hold on</span> to something.</td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td class="word">hide<span class="irregular">★ 不規則動詞</span></td>
+          <td class="zh">躲藏</td>
+          <td class="pos" style="color:#ff8a65">hide → <strong>hid</strong></td>
+          <td class="eg">I <span class="highlight">hid</span> under the table.</td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td class="word">cover</td>
+          <td class="zh">遮蓋</td>
+          <td class="pos">cover → covered</td>
+          <td class="eg">I <span class="highlight">covered</span> my head with my hands.</td>
+        </tr>
+        <tr>
+          <td class="num">4</td>
+          <td class="word">fall<span class="irregular">★ 不規則動詞</span></td>
+          <td class="zh">掉落、跌落</td>
+          <td class="pos" style="color:#ff8a65">fall → <strong>fell</strong></td>
+          <td class="eg">She <span class="highlight">fell</span> into the river.</td>
+        </tr>
+        <tr>
+          <td class="num">5</td>
+          <td class="word">pull</td>
+          <td class="zh">拉</td>
+          <td class="pos">pull → pulled</td>
+          <td class="eg"><span class="highlight">Pull</span> that drawer.</td>
+        </tr>
+        <tr>
+          <td class="num">6</td>
+          <td class="word">prepare</td>
+          <td class="zh">準備</td>
+          <td class="pos">prepare → prepared</td>
+          <td class="eg">You should <span class="highlight">prepare</span> yourselves.</td>
+        </tr>
+        <tr>
+          <td class="num">7</td>
+          <td class="word">experience</td>
+          <td class="zh">經歷</td>
+          <td class="pos">experience → experienced</td>
+          <td class="eg">Did you ever <span class="highlight">experience</span> an earthquake?</td>
+        </tr>
+        <tr>
+          <td class="num">8</td>
+          <td class="word">break<span class="irregular">★ 不規則動詞</span></td>
+          <td class="zh">碎裂、打破</td>
+          <td class="pos" style="color:#ff8a65">break → <strong>broke</strong></td>
+          <td class="eg">I heard the windows <span class="highlight">breaking</span>.</td>
+        </tr>
+        <tr>
+          <td class="num">9</td>
+          <td class="word">shout</td>
+          <td class="zh">大叫、喊叫</td>
+          <td class="pos">shout → shouted</td>
+          <td class="eg">Did you hear someone <span class="highlight">shouting</span> outside?</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="irreg-note">
+      🔴 <strong>特別注意不規則動詞（要背！）：</strong>
+      <div class="irreg-table">
+        <span class="base-f">hide</span><span class="arrow">→</span><span class="past">hid（躲藏）</span>
+        <span class="base-f">fall</span><span class="arrow">→</span><span class="past">fell（掉落）</span>
+        <span class="base-f">break</span><span class="arrow">→</span><span class="past">broke（碎裂）</span>
+      </div>
+    </div>
+
+    <button class="flashcard-toggle" onclick="toggleFC(this)">
+      🃏 字卡練習 <span class="toggle-arrow">▼</span>
+    </button>
+    <div class="flashcard-section">
+      <div class="flashcard-controls">
+        <span>點一下字卡翻面 👇</span>
+        <button class="fc-ctrl-btn" onclick="flipAll(this)">全部翻面</button>
+        <button class="fc-ctrl-btn" onclick="resetAll(this)">全部重置</button>
+      </div>
+      <div class="flashcard-grid">
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">hold</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">抓住、握住</span><span class="fc-pos">v. 動詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">hide</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">躲藏</span><span class="fc-pos">v. 動詞</span><span class="fc-en-small">hide → hid ★不規則</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">cover</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">遮蓋</span><span class="fc-pos">v. 動詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">fall</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">掉落、跌落</span><span class="fc-pos">v. 動詞</span><span class="fc-en-small">fall → fell ★不規則</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">pull</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">拉</span><span class="fc-pos">v. 動詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">prepare</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">準備</span><span class="fc-pos">v. 動詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">experience</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">經歷</span><span class="fc-pos">v. 動詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">break</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">碎裂、打破</span><span class="fc-pos">v. 動詞</span><span class="fc-en-small">break → broke ★不規則</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">shout</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">大叫、喊叫</span><span class="fc-pos">v. 動詞</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 三、形容詞 ══ -->
+  <div class="section">
+    <div class="section-title"><span class="emoji">😱</span> 三、形容詞</div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>英文單字</th>
+          <th>中文意思</th>
+          <th>例句</th>
+          <th>中文翻譯</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">1</td>
+          <td class="word">scared</td>
+          <td class="zh">害怕的</td>
+          <td class="eg">I was <span class="highlight">scared</span>.</td>
+          <td class="eg-zh">我很害怕。</td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td class="word">afraid</td>
+          <td class="zh">害怕的</td>
+          <td class="eg">I was <span class="highlight">afraid</span>.</td>
+          <td class="eg-zh">我很害怕。</td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td class="word">dangerous</td>
+          <td class="zh">危險的</td>
+          <td class="eg">It is <span class="highlight">dangerous</span> to take an elevator.</td>
+          <td class="eg-zh">搭電梯是很危險的。</td>
+        </tr>
+        <tr>
+          <td class="num">4</td>
+          <td class="word">scary</td>
+          <td class="zh">嚇人的</td>
+          <td class="eg">That sounds <span class="highlight">scary</span>!</td>
+          <td class="eg-zh">那聽起來好嚇人！</td>
+        </tr>
+        <tr>
+          <td class="num">5</td>
+          <td class="word">deep</td>
+          <td class="zh">深的</td>
+          <td class="eg">She fell into the <span class="highlight">deep</span> river.</td>
+          <td class="eg-zh">她跌入那條很深的河裡。</td>
+        </tr>
+        <tr>
+          <td class="num">6</td>
+          <td class="word">serious</td>
+          <td class="zh">嚴重的</td>
+          <td class="eg">Nothing <span class="highlight">serious</span> happened.</td>
+          <td class="eg-zh">沒有嚴重的事情發生。</td>
+        </tr>
+        <tr>
+          <td class="num">7</td>
+          <td class="word">comfortable</td>
+          <td class="zh">舒適的</td>
+          <td class="eg">My coat is <span class="highlight">comfortable</span>.</td>
+          <td class="eg-zh">我的外套很舒適。</td>
+        </tr>
+        <tr>
+          <td class="num">8</td>
+          <td class="word">fashionable</td>
+          <td class="zh">時髦的</td>
+          <td class="eg">My coat is <span class="highlight">fashionable</span>.</td>
+          <td class="eg-zh">我的外套很時髦。</td>
+        </tr>
+        <tr>
+          <td class="num">9</td>
+          <td class="word">friendly</td>
+          <td class="zh">友善的</td>
+          <td class="eg">Penny is <span class="highlight">friendly</span>.</td>
+          <td class="eg-zh">Penny 很友善。</td>
+        </tr>
+        <tr>
+          <td class="num">10</td>
+          <td class="word">leading</td>
+          <td class="zh">主要的</td>
+          <td class="eg">the <span class="highlight">leading</span> actor</td>
+          <td class="eg-zh">主要演員</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      💡 <strong>scared vs. afraid 有什麼不同？</strong><br>
+      兩個都是「害怕的」，意思一樣，可以互換！<br>
+      I was <span style="color:#ffe082;font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:800">scared</span>. ✅ &nbsp;&nbsp; I was <span style="color:#ffe082;font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:800">afraid</span>. ✅
+    </div>
+
+    <button class="flashcard-toggle" onclick="toggleFC(this)">
+      🃏 字卡練習 <span class="toggle-arrow">▼</span>
+    </button>
+    <div class="flashcard-section">
+      <div class="flashcard-controls">
+        <span>點一下字卡翻面 👇</span>
+        <button class="fc-ctrl-btn" onclick="flipAll(this)">全部翻面</button>
+        <button class="fc-ctrl-btn" onclick="resetAll(this)">全部重置</button>
+      </div>
+      <div class="flashcard-grid">
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">scared</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">害怕的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">afraid</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">害怕的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">dangerous</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">危險的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">scary</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">嚇人的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">deep</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">深的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">serious</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">嚴重的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">comfortable</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">舒適的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">fashionable</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">時髦的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">friendly</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">友善的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">leading</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">主要的</span><span class="fc-pos">adj. 形容詞</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 四、名詞 ══ -->
+  <div class="section">
+    <div class="section-title"><span class="emoji">📦</span> 四、名詞</div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>英文單字</th>
+          <th>中文意思</th>
+          <th>例句</th>
+          <th>中文翻譯</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">1</td>
+          <td class="word">elevator</td>
+          <td class="zh">電梯</td>
+          <td class="eg">Don't take the <span class="highlight">elevator</span> during an earthquake.</td>
+          <td class="eg-zh">地震時不要搭電梯。</td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td class="word">moment</td>
+          <td class="zh">時刻、片刻</td>
+          <td class="eg">What should we do at that <span class="highlight">moment</span>?</td>
+          <td class="eg-zh">那個時刻我們應該做什麼？</td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td class="word">drawer</td>
+          <td class="zh">抽屜</td>
+          <td class="eg">Pull that <span class="highlight">drawer</span>.</td>
+          <td class="eg-zh">拉開那個抽屜。</td>
+        </tr>
+        <tr>
+          <td class="num">4</td>
+          <td class="word">cookies</td>
+          <td class="zh">餅乾（複數）</td>
+          <td class="eg">You will see some <span class="highlight">cookies</span> inside.</td>
+          <td class="eg-zh">你會看到一些餅乾在裡面。</td>
+        </tr>
+        <tr>
+          <td class="num">5</td>
+          <td class="word">candles</td>
+          <td class="zh">蠟燭（複數）</td>
+          <td class="eg">You will see some <span class="highlight">candles</span> inside.</td>
+          <td class="eg-zh">你會看到一些蠟燭在裡面。</td>
+        </tr>
+        <tr>
+          <td class="num">6</td>
+          <td class="word">lesson</td>
+          <td class="zh">教訓；課程</td>
+          <td class="eg">The typhoon taught us a <span class="highlight">lesson</span>.</td>
+          <td class="eg-zh">颱風給了我們一個教訓。</td>
+        </tr>
+        <tr>
+          <td class="num">7</td>
+          <td class="word">apartment</td>
+          <td class="zh">公寓</td>
+          <td class="eg">An <span class="highlight">apartment</span> fell down.</td>
+          <td class="eg-zh">一間公寓倒塌了。</td>
+        </tr>
+        <tr>
+          <td class="num">8</td>
+          <td class="word">window</td>
+          <td class="zh">窗戶</td>
+          <td class="eg">I heard the <span class="highlight">windows</span> breaking.</td>
+          <td class="eg-zh">我聽到窗戶碎裂了。</td>
+        </tr>
+        <tr>
+          <td class="num">9</td>
+          <td class="word">scene</td>
+          <td class="zh">場景</td>
+          <td class="eg">It sounds like a <span class="highlight">scene</span> from a movie!</td>
+          <td class="eg-zh">這聽起來就像電影場景！</td>
+        </tr>
+        <tr>
+          <td class="num">10</td>
+          <td class="word">actress</td>
+          <td class="zh">女演員</td>
+          <td class="eg">Ms. Thompson is an <span class="highlight">actress</span>.</td>
+          <td class="eg-zh">湯普森女士是一位女演員。</td>
+        </tr>
+        <tr>
+          <td class="num">11</td>
+          <td class="word">writer</td>
+          <td class="zh">作家</td>
+          <td class="eg">Ms. Thompson is a <span class="highlight">writer</span>.</td>
+          <td class="eg-zh">湯普森女士是一位作家。</td>
+        </tr>
+        <tr>
+          <td class="num">12</td>
+          <td class="word">raindrop</td>
+          <td class="zh">雨滴</td>
+          <td class="eg">She felt <span class="highlight">raindrops</span> falling on her head.</td>
+          <td class="eg-zh">她感覺到雨滴落在她頭上。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="flashcard-toggle" onclick="toggleFC(this)">
+      🃏 字卡練習 <span class="toggle-arrow">▼</span>
+    </button>
+    <div class="flashcard-section">
+      <div class="flashcard-controls">
+        <span>點一下字卡翻面 👇</span>
+        <button class="fc-ctrl-btn" onclick="flipAll(this)">全部翻面</button>
+        <button class="fc-ctrl-btn" onclick="resetAll(this)">全部重置</button>
+      </div>
+      <div class="flashcard-grid">
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">elevator</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">電梯</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">moment</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">時刻、片刻</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">drawer</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">抽屜</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">cookies</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">餅乾（複數）</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">candles</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">蠟燭（複數）</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">lesson</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">教訓；課程</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">apartment</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">公寓</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">window</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">窗戶</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">scene</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">場景</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">actress</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">女演員</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">writer</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">作家</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+        <div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front"><span class="fc-word">raindrop</span><span class="fc-hint">點我看答案</span></div>
+            <div class="fc-back"><span class="fc-zh">雨滴</span><span class="fc-pos">n. 名詞</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 五、反身代名詞 ══ -->
+  <div class="section">
+    <div class="section-title"><span class="emoji">🪞</span> 五、反身代名詞（...自己）</div>
+    <div class="tip-box" style="margin-bottom:16px">
+      💡 <strong>什麼是反身代名詞？</strong><br>
+      就是「<strong>...自己</strong>」的意思。例如：「我自己做的」、「他自己去的」<br>
+      用法：<span style="color:#ffe082">by + 反身代名詞</span> = 靠自己、獨自（沒有別人幫忙）
+    </div>
+    <div class="pronoun-grid">
+      <div class="pronoun-card">
+        <div class="base">I（我）</div>
+        <span class="reflexive">myself</span>
+        <div class="zh-label">我自己</div>
+        <div class="example">I cleaned it by <em>myself</em>.</div>
+      </div>
+      <div class="pronoun-card">
+        <div class="base">you（你）</div>
+        <span class="reflexive">yourself</span>
+        <div class="zh-label">你自己</div>
+        <div class="example">Don't hurt <em>yourself</em>.</div>
+      </div>
+      <div class="pronoun-card">
+        <div class="base">you（你們）</div>
+        <span class="reflexive">yourselves</span>
+        <div class="zh-label">你們自己</div>
+        <div class="example">Prepare <em>yourselves</em>.</div>
+      </div>
+      <div class="pronoun-card">
+        <div class="base">he（他）</div>
+        <span class="reflexive">himself</span>
+        <div class="zh-label">他自己</div>
+        <div class="example">He hurt <em>himself</em>.</div>
+      </div>
+      <div class="pronoun-card">
+        <div class="base">she（她）</div>
+        <span class="reflexive">herself</span>
+        <div class="zh-label">她自己</div>
+        <div class="example">She made it by <em>herself</em>.</div>
+      </div>
+      <div class="pronoun-card">
+        <div class="base">it（它）</div>
+        <span class="reflexive">itself</span>
+        <div class="zh-label">它自己</div>
+        <div class="example">The door opens by <em>itself</em>.</div>
+      </div>
+      <div class="pronoun-card">
+        <div class="base">we（我們）</div>
+        <span class="reflexive">ourselves</span>
+        <div class="zh-label">我們自己</div>
+        <div class="example">Take care of <em>ourselves</em>.</div>
+      </div>
+      <div class="pronoun-card">
+        <div class="base">they（他們）</div>
+        <span class="reflexive">themselves</span>
+        <div class="zh-label">他們自己</div>
+        <div class="example">They did it by <em>themselves</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 六、重要片語 ══ -->
+  <div class="section">
+    <div class="section-title"><span class="emoji">📌</span> 六、重要片語</div>
+    <div class="phrase-card">
+
+      <div class="p-card">
+        <div class="p-en">hold on to ___</div>
+        <div class="p-zh">緊緊抓住...</div>
+        <div class="p-eg"><span class="hl">Hold on to</span> something until the shaking stops.<br>緊緊抓住某個東西直到搖晃停止。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">fall into ___</div>
+        <div class="p-zh">跌入...</div>
+        <div class="p-eg">She <span class="hl">fell into</span> the river.<br>她跌入了河裡。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">fall off ___</div>
+        <div class="p-zh">從...掉下來</div>
+        <div class="p-eg">He <span class="hl">fell off</span> the tree.<br>他從樹上掉下來。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">up and down</div>
+        <div class="p-zh">上下</div>
+        <div class="p-eg">The floor was shaking <span class="hl">up and down</span>.<br>地板上下搖晃。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">back and forth</div>
+        <div class="p-zh">前後</div>
+        <div class="p-eg">The floor was shaking <span class="hl">back and forth</span>.<br>地板前後搖晃。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">No way!</div>
+        <div class="p-zh">不會吧！（表驚訝）</div>
+        <div class="p-eg"><span class="hl">No way!</span> What did you do then?<br>不會吧！那你怎麼做？</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">check it out</div>
+        <div class="p-zh">去查看一下</div>
+        <div class="p-eg">Let me <span class="hl">check it out</span>.<br>讓我去查看一下。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">take an elevator</div>
+        <div class="p-zh">搭電梯</div>
+        <div class="p-eg">Don't <span class="hl">take an elevator</span> during an earthquake.<br>地震時不要搭電梯。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">hurt oneself</div>
+        <div class="p-zh">傷到自己</div>
+        <div class="p-eg">He fell off the tree and <span class="hl">hurt himself</span>.<br>他從樹上掉下來且傷到他自己。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">by oneself</div>
+        <div class="p-zh">靠自己（獨自）</div>
+        <div class="p-eg">She made the cake <span class="hl">by herself</span>.<br>她自己做了蛋糕（沒人幫忙）。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">take care of oneself</div>
+        <div class="p-zh">照顧自己</div>
+        <div class="p-eg">Please <span class="hl">take care of yourselves</span>.<br>請你們照顧好自己。</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-en">cry out for help</div>
+        <div class="p-zh">大聲求救</div>
+        <div class="p-eg">She <span class="hl">cried out for help</span>.<br>她大聲求救。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ 七、感官動詞 ══ -->
+  <div class="section">
+    <div class="section-title"><span class="emoji">👀</span> 七、感官動詞用法</div>
+    <div class="tip-box" style="margin-bottom:16px">
+      💡 <strong>公式：</strong>
+      感官動詞 + 人/物 + <span style="color:#ffe082">原形動詞</span> 或 <span style="color:#80cbc4">V-ing</span>（兩個都對！）
+    </div>
+
+    <div class="verb-row">
+      <div class="verb-badge"><div class="v-en">see</div><div class="v-zh">看見（不小心看到）</div></div>
+      <div class="formula-box">
+        <span>see + 人/物 + </span>
+        <span class="f-verb">原形動詞 / V-ing</span>
+        <span class="f-eg">I <strong>saw</strong> a bird <strong>fly / flying</strong>. &nbsp;→ 我看到一隻鳥在飛。</span>
+      </div>
+    </div>
+
+    <div class="verb-row">
+      <div class="verb-badge"><div class="v-en">hear</div><div class="v-zh">聽見</div></div>
+      <div class="formula-box">
+        <span>hear + 人/物 + </span>
+        <span class="f-verb">原形動詞 / V-ing</span>
+        <span class="f-eg">I <strong>heard</strong> someone <strong>shout / shouting</strong>. &nbsp;→ 我聽到有人在大叫。</span>
+      </div>
+    </div>
+
+    <div class="verb-row">
+      <div class="verb-badge"><div class="v-en">feel</div><div class="v-zh">感覺</div></div>
+      <div class="formula-box">
+        <span>feel + 人/物 + </span>
+        <span class="f-verb">原形動詞 / V-ing</span>
+        <span class="f-eg">I <strong>felt</strong> the floor <strong>shake / shaking</strong>. &nbsp;→ 我感覺到地板在搖晃。</span>
+      </div>
+    </div>
+
+    <div class="verb-row">
+      <div class="verb-badge"><div class="v-en">watch</div><div class="v-zh">觀看（專心看）</div></div>
+      <div class="formula-box">
+        <span>watch + 人/物 + </span>
+        <span class="f-verb">原形動詞 / V-ing</span>
+        <span class="f-eg">I <strong>watched</strong> the kids <strong>play / playing</strong>. &nbsp;→ 我看著孩子們在玩。</span>
+      </div>
+    </div>
+
+    <div class="verb-row">
+      <div class="verb-badge"><div class="v-en">listen to</div><div class="v-zh">聆聽</div></div>
+      <div class="formula-box">
+        <span>listen to + 人/物 + </span>
+        <span class="f-verb">原形動詞 / V-ing</span>
+        <span class="f-eg">I <strong>listened to</strong> her <strong>sing / singing</strong>. &nbsp;→ 我聆聽她唱歌。</span>
+      </div>
+    </div>
+
+    <div class="tip-box" style="margin-top:12px">
+      ⚠️ <strong>特別注意：</strong> <span style="color:#ffccbc">ask / tell</span> 不是感官動詞！<br>
+      ask / tell + 人 + <span style="color:#ff8a65">to + 動詞原形</span>（不定詞）<br>
+      例：She asked him <span style="color:#ff8a65">to clean</span> his room. &nbsp;/&nbsp; He told us <span style="color:#ff8a65">not to talk</span> in class.
+    </div>
+  </div>
+
+  <!-- ══ 八、not only...but also ══ -->
+  <div class="section">
+    <div class="section-title"><span class="emoji">🔗</span> 八、not only...but also...（不僅...而且...）</div>
+
+    <div class="formula-card">
+      <div class="f-title">公式</div>
+      <div class="f-pattern">not only A but (also) B &nbsp;＝&nbsp; 不僅 A，而且 B</div>
+      <ul class="f-eg-list">
+        <li>
+          The river is <span class="chalk">not only</span> deep <span class="chalk">but also</span> dangerous.
+          <span class="zh">→ 這條河不僅很深，而且很危險。</span>
+        </li>
+        <li>
+          Penny is <span class="chalk">not only</span> beautiful <span class="chalk">but also</span> friendly.
+          <span class="zh">→ Penny 不僅漂亮，而且很友善。</span>
+        </li>
+        <li>
+          I <span class="chalk">not only</span> felt the floor shaking <span class="chalk">but also</span> heard the windows breaking.
+          <span class="zh">→ 我不僅感受到地板在搖晃，而且還聽到窗戶在碎裂。</span>
+        </li>
+        <li>
+          Ms. Thompson is <span class="chalk">not only</span> an actress <span class="chalk">but also</span> a writer.
+          <span class="zh">→ 湯普森女士不僅是女演員，而且也是作家。</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tip-box">
+      ⚠️ <strong>主詞一致性注意：</strong><br>
+      用 <span style="color:#ffe082">not only...but also...</span> 連接兩個主詞時，動詞要跟<strong>最靠近的主詞</strong>一致。<br>
+      例：<em>Not only Wilson but (also) Natalie</em> <span style="color:#ffe082">likes</span> playing tennis.（動詞跟 Natalie 一致，用 likes）
+    </div>
+  </div>
+
+  <!-- 頁腳 -->
+  <div class="footer">
+    K4 L5 Vocabulary &amp; Phrase Review &nbsp;|&nbsp; 2026年5月
+  </div>
+  <div class="chalk-tray"></div>
+</div>
+<script>
+  // 展開 / 收起字卡區塊
+  function toggleFC(btn) {
+    const section = btn.nextElementSibling;
+    section.classList.toggle('visible');
+    btn.classList.toggle('open');
+    const arrow = btn.querySelector('.toggle-arrow');
+    if (section.classList.contains('visible')) {
+      btn.childNodes[0].textContent = '✖ 收起字卡 ';
+    } else {
+      btn.childNodes[0].textContent = '🃏 字卡練習 ';
+    }
+  }
+
+  // 找到目前按鈕所屬的 flashcard-section 裡的所有字卡
+  function getCards(btn) {
+    const section = btn.closest('.flashcard-section');
+    return section.querySelectorAll('.fc-wrap');
+  }
+
+  // 全部翻面（顯示中文）
+  function flipAll(btn) {
+    getCards(btn).forEach(c => c.classList.add('flipped'));
+  }
+
+  // 全部重置（回到英文正面）
+  function resetAll(btn) {
+    getCards(btn).forEach(c => c.classList.remove('flipped'));
+  }
+</script>
+</body>
+</html>

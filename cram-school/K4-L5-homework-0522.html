@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K4 L5 作業解析 — 2026.05.22</title>
+  <style>
+    /* ── 黑板主題 ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #1a2e1a;
+      color: #f0ead6;
+      font-family: 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      font-size: 22px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    /* 黑板紋理框 */
+    .blackboard {
+      background: #2d4a2d;
+      border-radius: 8px;
+      box-shadow: inset 0 0 60px rgba(0,0,0,0.4), 0 8px 32px rgba(0,0,0,0.6);
+      max-width: 960px;
+      margin: 30px auto;
+      padding: 40px 50px;
+    }
+
+    /* 標題 */
+    h1 {
+      text-align: center;
+      font-size: 2.2em;
+      color: #fff8dc;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    .subtitle {
+      text-align: center;
+      color: #b8d4b8;
+      font-size: 1em;
+      margin-bottom: 30px;
+    }
+
+    /* 粉筆分隔線 */
+    hr.chalk {
+      border: none;
+      border-top: 2px dashed rgba(240,234,214,0.3);
+      margin: 28px 0;
+    }
+
+    /* 章節標題 */
+    .section-title {
+      background: rgba(255,255,255,0.08);
+      border-left: 5px solid #7ecfb3;
+      padding: 10px 18px;
+      border-radius: 0 8px 8px 0;
+      color: #7ecfb3;
+      font-size: 1.15em;
+      font-weight: bold;
+      margin: 28px 0 16px;
+      letter-spacing: 1px;
+    }
+
+    /* 題目卡片 */
+    .q-card {
+      background: rgba(0,0,0,0.25);
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .q-card:hover { border-color: rgba(126,207,179,0.4); }
+
+    /* 題號 */
+    .q-num {
+      display: inline-block;
+      background: #7ecfb3;
+      color: #1a2e1a;
+      border-radius: 50%;
+      width: 38px; height: 38px;
+      text-align: center;
+      line-height: 38px;
+      font-weight: bold;
+      font-size: 1em;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .q-header { display: flex; align-items: flex-start; margin-bottom: 10px; }
+    .q-body { padding-left: 50px; }
+
+    /* 中文題目 */
+    .q-zh {
+      color: #c8e6c8;
+      font-size: 0.95em;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+
+    /* 英文填空 */
+    .q-en {
+      color: #f0ead6;
+      font-size: 1.05em;
+      margin-bottom: 12px;
+      line-height: 2.2;
+    }
+
+    /* 空格樣式 */
+    .blank {
+      display: inline-block;
+      border-bottom: 2.5px solid #7ecfb3;
+      text-decoration: none;
+      min-width: 90px;
+      margin: 0 4px;
+      text-align: center;
+      color: transparent;
+      vertical-align: bottom;
+    }
+
+    /* 按鈕群 */
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+
+    button {
+      padding: 8px 22px;
+      border-radius: 20px;
+      border: 1.5px solid;
+      cursor: pointer;
+      font-size: 0.95em;
+      font-weight: bold;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-ans {
+      background: transparent;
+      border-color: #7ecfb3;
+      color: #7ecfb3;
+    }
+    .btn-ans:hover { background: #7ecfb3; color: #1a2e1a; }
+
+    .btn-exp {
+      background: transparent;
+      border-color: #f0b87c;
+      color: #f0b87c;
+    }
+    .btn-exp:hover { background: #f0b87c; color: #1a2e1a; }
+
+    /* 答案 & 解析區塊 */
+    .answer-box, .explain-box {
+      display: none;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-top: 10px;
+      font-size: 1em;
+      line-height: 2;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
+
+    .answer-box {
+      background: rgba(126,207,179,0.12);
+      border-left: 3px solid #7ecfb3;
+      color: #c8f5e4;
+    }
+    .answer-box strong { color: #7ecfb3; }
+
+    .explain-box {
+      background: rgba(240,184,124,0.12);
+      border-left: 3px solid #f0b87c;
+      color: #f5e0c8;
+    }
+    .explain-box strong { color: #f0b87c; }
+
+    /* 翻轉字卡區 */
+    .cards-section { margin-top: 36px; }
+    .cards-title {
+      text-align: center;
+      color: #f0e68c;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    .cards-subtitle {
+      text-align: center;
+      color: #b8d4b8;
+      font-size: 0.85em;
+      margin-bottom: 24px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    /* 翻轉效果 */
+    .flip-card {
+      height: 120px;
+      perspective: 800px;
+      cursor: pointer;
+    }
+    .flip-inner {
+      position: relative;
+      width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.45s;
+    }
+    .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+
+    .flip-front, .flip-back {
+      position: absolute;
+      width: 100%; height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+      text-align: center;
+    }
+    .flip-front {
+      background: rgba(0,0,0,0.35);
+      border: 1.5px solid rgba(240,230,140,0.5);
+    }
+    .flip-front .card-en {
+      color: #f0e68c;
+      font-size: 1.05em;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .flip-front .card-pos {
+      color: #b8d4b8;
+      font-size: 0.75em;
+    }
+    .flip-back {
+      background: rgba(126,207,179,0.18);
+      border: 1.5px solid #7ecfb3;
+      transform: rotateY(180deg);
+    }
+    .flip-back .card-zh {
+      color: #c8f5e4;
+      font-size: 1em;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    .flip-back .card-ex {
+      color: #b8d4b8;
+      font-size: 0.72em;
+      font-style: italic;
+    }
+
+    /* 文法對照表 */
+    .grammar-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.88em;
+    }
+    .grammar-table th {
+      background: rgba(126,207,179,0.2);
+      color: #7ecfb3;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .grammar-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      color: #f0ead6;
+    }
+    .grammar-table tr:last-child td { border-bottom: none; }
+    .grammar-table .highlight { color: #f0b87c; font-weight: bold; }
+
+    /* 頁尾 */
+    .footer {
+      text-align: center;
+      color: rgba(240,234,214,0.35);
+      font-size: 0.78em;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+<div class="blackboard">
+
+  <h1>📚 K4 Lesson 5 作業解析</h1>
+  <div class="subtitle">2026年5月22日 ｜ 點擊按鈕查看答案與解析</div>
+
+  <hr class="chalk">
+
+  <!-- ======== 填充題 1–11（翻譯填空） ======== -->
+  <div class="section-title">✏️ 填充一：中翻英填空（第 1–11 題）</div>
+
+  <!-- Q1 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">1</span>
+      <div class="q-body">
+        <div class="q-zh">地震在 2025 年 3 月 28 日襲擊了這個城市。</div>
+        <div class="q-en">The <span class="blank">______</span> <span class="blank">______</span> the city on March 28th, 2025.</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a1')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e1')">查看解析</button>
+        </div>
+        <div id="a1" class="answer-box"><strong>答案：</strong>earthquake &nbsp;/&nbsp; hit</div>
+        <div id="e1" class="explain-box"><strong>解析：</strong>「地震」= earthquake（n.），「襲擊」= hit（v.）。句子時態為過去式，hit 本身就是過去式（hit–hit–hit 三態同形）。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">2</span>
+      <div class="q-body">
+        <div class="q-zh">你應該要緊緊抓住某個東西直到搖晃停止。</div>
+        <div class="q-en">You should <span class="blank">______</span> <span class="blank">______</span> to something until the shaking stops.</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a2')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e2')">查看解析</button>
+        </div>
+        <div id="a2" class="answer-box"><strong>答案：</strong>hold &nbsp;/&nbsp; on</div>
+        <div id="e2" class="explain-box"><strong>解析：</strong>「緊緊抓住」= hold on to + something。hold on = 抓緊、堅持；后接 to 表示抓住某物。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">3</span>
+      <div class="q-body">
+        <div class="q-zh">Eva 感受到地板上下搖晃 / 很害怕，躲在桌子下面，遮蓋她的頭。</div>
+        <div class="q-en">
+          I felt the floor <span class="blank">______</span> up and down when I slept last night.<br>
+          I was <span class="blank">______</span>, so I <span class="blank">______</span> under the table and <span class="blank">______</span> my head with my hands.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a3')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e3')">查看解析</button>
+        </div>
+        <div id="a3" class="answer-box"><strong>答案：</strong>shaking &nbsp;/&nbsp; scared &nbsp;/&nbsp; hid &nbsp;/&nbsp; covered</div>
+        <div id="e3" class="explain-box">
+          <strong>解析：</strong><br>
+          • 感官動詞 feel + O + <strong>V-ing</strong>（強調動作正在發生），所以填 shaking。<br>
+          • scared = 感到害怕（adj.）；be scared。<br>
+          • hide（躲藏）過去式 = hid。<br>
+          • cover（遮蓋）過去式 = covered。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">4</span>
+      <div class="q-body">
+        <div class="q-zh">你有聽到某人在外面大叫嗎？ / 他從樹上掉下來且傷到他自己。</div>
+        <div class="q-en">
+          Did you <span class="blank">______</span> <span class="blank">______</span> shouting outside this morning?<br>
+          He <span class="blank">______</span> <span class="blank">______</span> the tree and hurt <span class="blank">______</span>.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a4')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e4')">查看解析</button>
+        </div>
+        <div id="a4" class="answer-box"><strong>答案：</strong>hear &nbsp;/&nbsp; someone &nbsp;/&nbsp; fell &nbsp;/&nbsp; from &nbsp;/&nbsp; himself</div>
+        <div id="e4" class="explain-box">
+          <strong>解析：</strong><br>
+          • hear someone + V-ing（聽到某人在大叫）= hear someone shouting。<br>
+          • fall from...（從...掉落），fall 過去式 = fell。<br>
+          • hurt himself：傷到「他自己」→ 反身代名詞 himself（he → himself）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">5</span>
+      <div class="q-body">
+        <div class="q-zh">一個女孩跌入那條很深的河裡 / 那個男人正試著要自己幫助她 / 那個女孩正緊緊抓住他的手。</div>
+        <div class="q-en">
+          A girl just <span class="blank">______</span> into the <span class="blank">______</span> river. Let's help her.<br>
+          The man is trying to help her by <span class="blank">______</span>. And the girl is <span class="blank">______</span> <span class="blank">______</span> to his hands.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a5')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e5')">查看解析</button>
+        </div>
+        <div id="a5" class="answer-box"><strong>答案：</strong>fell &nbsp;/&nbsp; deep &nbsp;/&nbsp; himself &nbsp;/&nbsp; holding &nbsp;/&nbsp; on</div>
+        <div id="e5" class="explain-box">
+          <strong>解析：</strong><br>
+          • fall into = 跌入（fall 過去式 = fell）。<br>
+          • deep（深的）形容詞修飾 river。<br>
+          • by himself = 靠他自己（= alone）。<br>
+          • hold on to = 緊緊抓住，現在進行式 is holding on to。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">6</span>
+      <div class="q-body">
+        <div class="q-zh">在地震發生的時候搭電梯是很危險的。那個時刻我們應該怎麼做？</div>
+        <div class="q-en">
+          It is <span class="blank">______</span> to take an <span class="blank">______</span> when an <span class="blank">______</span> happens.<br>
+          Then what should we do at that <span class="blank">______</span>?
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a6')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e6')">查看解析</button>
+        </div>
+        <div id="a6" class="answer-box"><strong>答案：</strong>dangerous &nbsp;/&nbsp; elevator &nbsp;/&nbsp; earthquake &nbsp;/&nbsp; moment</div>
+        <div id="e6" class="explain-box">
+          <strong>解析：</strong><br>
+          • It is + adj. + to V... = 做...是...的（虛主詞 It）。<br>
+          • dangerous（危險的），elevator（電梯），earthquake（地震），moment（時刻）。<br>
+          • at that moment = 在那個時刻。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">7</span>
+      <div class="q-body">
+        <div class="q-zh">颱風「木蘭」將於明天登陸。你們自己應該做好準備，否則會相當危險。</div>
+        <div class="q-en">
+          <span class="blank">______</span> Mulan will hit <span class="blank">______</span> tomorrow. You should prepare <span class="blank">______</span>, or it will be very <span class="blank">______</span>.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a7')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e7')">查看解析</button>
+        </div>
+        <div id="a7" class="answer-box"><strong>答案：</strong>Typhoon &nbsp;/&nbsp; land &nbsp;/&nbsp; yourselves &nbsp;/&nbsp; dangerous</div>
+        <div id="e7" class="explain-box">
+          <strong>解析：</strong><br>
+          • Typhoon（颱風）是專有名詞類別名稱，放在名字前面。<br>
+          • hit land = 登陸（land 在此為名詞「陸地」）。<br>
+          • 「你們自己」= yourselves（you 複數的反身代名詞）。<br>
+          • or = 否則（otherwise）；引出否定結果。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">8</span>
+      <div class="q-body">
+        <div class="q-zh">地板不僅前後而且上下搖晃 / 那聽起來好嚇人 / 幸運地，沒有嚴重的事情發生。</div>
+        <div class="q-en">
+          The floor was shaking not <span class="blank">______</span> back and forth <span class="blank">______</span> also up and down when the <span class="blank">______</span> hit the city.<br>
+          That sounds <span class="blank">______</span>. — Luckily, <span class="blank">______</span> serious happened.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a8')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e8')">查看解析</button>
+        </div>
+        <div id="a8" class="answer-box"><strong>答案：</strong>only &nbsp;/&nbsp; but &nbsp;/&nbsp; earthquake &nbsp;/&nbsp; scary &nbsp;/&nbsp; nothing</div>
+        <div id="e8" class="explain-box">
+          <strong>解析：</strong><br>
+          • not only... but also...（不僅...而且...）= 連接兩個並列動作或方向。<br>
+          • scary = 嚇人的、令人害怕的（形容詞）。<br>
+          • nothing serious happened = 沒有嚴重的事情發生。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">9</span>
+      <div class="q-body">
+        <div class="q-zh">拉開那個抽屜，你會看到一些餅乾跟蠟燭在裡面。</div>
+        <div class="q-en"><span class="blank">______</span> that <span class="blank">______</span>, and you will see some <span class="blank">______</span> and <span class="blank">______</span> inside.</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a9')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e9')">查看解析</button>
+        </div>
+        <div id="a9" class="answer-box"><strong>答案：</strong>Pull open &nbsp;/&nbsp; drawer &nbsp;/&nbsp; cookies &nbsp;/&nbsp; candles</div>
+        <div id="e9" class="explain-box">
+          <strong>解析：</strong><br>
+          • pull open = 拉開（動詞片語）；句型是祈使句（命令句）。<br>
+          • drawer（抽屜），cookies（餅乾），candles（蠟燭）。<br>
+          • 「..., and you will...」= 祈使句 + and + 結果句。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">10</span>
+      <div class="q-body">
+        <div class="q-zh">這颱風給了我們一個教訓 / 一間公寓倒塌了 / 不管任何時候，都不想再次經歷了。</div>
+        <div class="q-en">
+          The <span class="blank">______</span> taught us a <span class="blank">______</span>.<br>
+          An <span class="blank">______</span> fell down. I don't want to experience it <span class="blank">______</span> again.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a10')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e10')">查看解析</button>
+        </div>
+        <div id="a10" class="answer-box"><strong>答案：</strong>typhoon &nbsp;/&nbsp; lesson &nbsp;/&nbsp; apartment &nbsp;/&nbsp; anytime (/ ever)</div>
+        <div id="e10" class="explain-box">
+          <strong>解析：</strong><br>
+          • teach someone a lesson = 給某人一個教訓（teach 過去式 = taught）。<br>
+          • apartment（公寓）。<br>
+          • experience（動詞）= 經歷；anytime / ever = 任何時候。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">11</span>
+      <div class="q-body">
+        <div class="q-zh">我聽到窗戶碎裂了。讓我去查看一下。/ 待在家裡。如果你去外面，將會很危險。</div>
+        <div class="q-en">
+          I <span class="blank">______</span> the <span class="blank">______</span> <span class="blank">______</span>. Let me check it out.<br>
+          Stay at home. It will be very <span class="blank">______</span> if you go outside.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a11')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e11')">查看解析</button>
+        </div>
+        <div id="a11" class="answer-box"><strong>答案：</strong>heard &nbsp;/&nbsp; window &nbsp;/&nbsp; breaking (/ crack) &nbsp;/&nbsp; dangerous</div>
+        <div id="e11" class="explain-box">
+          <strong>解析：</strong><br>
+          • 感官動詞 hear + O + V-ing（強調正在發生）= heard the window breaking（碎裂的過程）。<br>
+          • 也可用 crack（碎裂一聲），視題目空格數量而定。<br>
+          • dangerous（危險的）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="chalk">
+
+  <!-- ======== 文法填充 12–19 ======== -->
+  <div class="section-title">✏️ 填充二：動詞形式 & 反身代名詞（第 12–19 題）</div>
+
+  <!-- Q12 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">12</span>
+      <div class="q-body">
+        <div class="q-zh">填入正確的動詞形式</div>
+        <div class="q-en">
+          ①&nbsp;I heard my mother ask my brother <span class="blank">______</span> (clean) his room last night.<br>
+          ②&nbsp;We saw a woman <span class="blank">______</span> (cry) in the park.<br>
+          ③&nbsp;Erica watches her mom <span class="blank">______</span> (make) dinner in the kitchen every evening.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a12')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e12')">查看解析</button>
+        </div>
+        <div id="a12" class="answer-box"><strong>答案：</strong>① to clean &nbsp;②&nbsp;cry / crying &nbsp;③&nbsp;make</div>
+        <div id="e12" class="explain-box">
+          <strong>解析：</strong><br>
+          • ① ask someone <strong>to V</strong>（請/叫某人做…），不是感官動詞，要用 to V。<br>
+          • ② see + O + <strong>V / V-ing</strong>（裸不定詞或現在分詞皆可）。<br>
+          • ③ watch + O + <strong>V</strong>（感官動詞後接裸不定詞）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">13</span>
+      <div class="q-body">
+        <div class="q-zh">填入正確的反身代名詞</div>
+        <div class="q-en">
+          ①&nbsp;Cathy made the cake for me all by <span class="blank">______</span>. It was very nice of her.<br>
+          ②&nbsp;The man is strange. He talks to <span class="blank">______</span> in the park almost every day.<br>
+          ③&nbsp;Bruce and Michael enjoyed <span class="blank">______</span> at the beach last weekend.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a13')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e13')">查看解析</button>
+        </div>
+        <div id="a13" class="answer-box"><strong>答案：</strong>① herself &nbsp;②&nbsp;himself &nbsp;③&nbsp;themselves</div>
+        <div id="e13" class="explain-box">
+          <strong>解析：</strong><br>
+          • Cathy → she → <strong>herself</strong>。<br>
+          • The man → he → <strong>himself</strong>。<br>
+          • Bruce and Michael → they → <strong>themselves</strong>（enjoy oneself = 玩得開心）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">14</span>
+      <div class="q-body">
+        <div class="q-zh">填入正確的反身代名詞</div>
+        <div class="q-en">
+          ①&nbsp;My cat cleans <span class="blank">______</span> every day.<br>
+          ②&nbsp;Mom and Dad, please take care of <span class="blank">______</span> when I am not home.<br>
+          ③&nbsp;My five-year-old son can put on clothes all by <span class="blank">______</span>.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a14')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e14')">查看解析</button>
+        </div>
+        <div id="a14" class="answer-box"><strong>答案：</strong>① itself &nbsp;②&nbsp;yourselves &nbsp;③&nbsp;himself</div>
+        <div id="e14" class="explain-box">
+          <strong>解析：</strong><br>
+          • My cat（動物，非特定性別）→ <strong>itself</strong>。<br>
+          • Mom and Dad（= you 複數）→ <strong>yourselves</strong>。<br>
+          • My son → he → <strong>himself</strong>（by himself = 獨自地）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">15</span>
+      <div class="q-body">
+        <div class="q-zh">填入正確的動詞形式</div>
+        <div class="q-en">
+          ①&nbsp;Do you feel the classroom <span class="blank">______</span> (shake)?<br>
+          ②&nbsp;We saw some people <span class="blank">______</span> (dance) in the park.<br>
+          ③&nbsp;The teacher told the students <span class="blank">______</span> (not talk) to each other in class.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a15')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e15')">查看解析</button>
+        </div>
+        <div id="a15" class="answer-box"><strong>答案：</strong>① shake / shaking &nbsp;②&nbsp;dance / dancing &nbsp;③&nbsp;not to talk</div>
+        <div id="e15" class="explain-box">
+          <strong>解析：</strong><br>
+          • ① feel + O + <strong>V / V-ing</strong>（感官動詞）。<br>
+          • ② see + O + <strong>V / V-ing</strong>（感官動詞）。<br>
+          • ③ tell + O + <strong>not to V</strong>（tell 不是感官動詞，後接不定詞；否定加 not）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q16 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">16</span>
+      <div class="q-body">
+        <div class="q-zh">填入正確的動詞形式</div>
+        <div class="q-en">
+          ①&nbsp;Tom listened to his daughter <span class="blank">______</span> (tell) a story.<br>
+          ②&nbsp;Murry saw the bad guy <span class="blank">______</span> (follow) a woman.<br>
+          ③&nbsp;Jenny heard a woman <span class="blank">______</span> (cry) out for help.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a16')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e16')">查看解析</button>
+        </div>
+        <div id="a16" class="answer-box"><strong>答案：</strong>① tell &nbsp;②&nbsp;follow / following &nbsp;③&nbsp;cry / crying</div>
+        <div id="e16" class="explain-box">
+          <strong>解析：</strong><br>
+          • listen to + O + <strong>V / V-ing</strong>（感官動詞）。<br>
+          • see + O + <strong>V / V-ing</strong>。<br>
+          • hear + O + <strong>V / V-ing</strong>。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q17 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">17</span>
+      <div class="q-body">
+        <div class="q-zh">填入正確的動詞形式</div>
+        <div class="q-en">
+          ①&nbsp;Don't make any noise. I'm listening to Terry <span class="blank">______</span> (sing) on TV.<br>
+          ②&nbsp;Adam saw Mark and Linda <span class="blank">______</span> (eat) lunch together yesterday.<br>
+          ③&nbsp;Earthquake! I felt the floor <span class="blank">______</span> (shake).
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a17')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e17')">查看解析</button>
+        </div>
+        <div id="a17" class="answer-box"><strong>答案：</strong>① sing / singing &nbsp;②&nbsp;eat / eating &nbsp;③&nbsp;shake / shaking</div>
+        <div id="e17" class="explain-box">
+          <strong>解析：</strong><br>
+          • 以上皆為感官動詞（listen to、see、feel）+ O + <strong>V 或 V-ing</strong> 的結構。<br>
+          • V-ing 強調動作「進行中」；V（裸不定詞）強調動作「完整發生」。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q18 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">18</span>
+      <div class="q-body">
+        <div class="q-zh">填入正確的反身代名詞</div>
+        <div class="q-en">
+          ①&nbsp;What happened to John? I saw him talking to <span class="blank">______</span> in the classroom.<br>
+          ②&nbsp;My husband was not home yesterday, so I cleaned the house by <span class="blank">______</span>.<br>
+          ③&nbsp;Boys, just do all the homework by <span class="blank">______</span>.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a18')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e18')">查看解析</button>
+        </div>
+        <div id="a18" class="answer-box"><strong>答案：</strong>① himself &nbsp;②&nbsp;myself &nbsp;③&nbsp;yourselves</div>
+        <div id="e18" class="explain-box">
+          <strong>解析：</strong><br>
+          • John / him → <strong>himself</strong>。<br>
+          • I → <strong>myself</strong>。<br>
+          • Boys（= you 複數）→ <strong>yourselves</strong>（by oneself = 靠自己）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q19 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">19</span>
+      <div class="q-body">
+        <div class="q-zh">選填正確的動詞形式</div>
+        <div class="q-en">
+          ①&nbsp;I heard a man <span class="blank">______</span> (to sing / sings / <u>sing</u>) a song to a woman in the park yesterday.<br>
+          ②&nbsp;Wendy just felt raindrops <span class="blank">______</span> (to fall / <u>falling</u> / falls) on her head.<br>
+          ③&nbsp;Tommy and Amy listened to their aunt <span class="blank">______</span> (told / to tell / <u>tell</u>) stories.<br>
+          ④&nbsp;Jill only saw one fish <span class="blank">______</span> (swims / <u>swim</u> / to swim) in the river.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a19')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e19')">查看解析</button>
+        </div>
+        <div id="a19" class="answer-box"><strong>答案：</strong>① sing &nbsp;②&nbsp;falling &nbsp;③&nbsp;tell &nbsp;④&nbsp;swim</div>
+        <div id="e19" class="explain-box">
+          <strong>解析：</strong><br>
+          • ① heard + O + <strong>V</strong>（完整發生的動作，所以用裸不定詞 sing）。<br>
+          • ② felt + O + <strong>V-ing</strong>（雨滴正在落下，強調進行，所以用 falling）。<br>
+          • ③ listen to + O + <strong>V</strong>（裸不定詞，tell）。<br>
+          • ④ saw + O + <strong>V</strong>（裸不定詞，swim）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="chalk">
+
+  <!-- ======== 合併句子 20–22, 28 ======== -->
+  <div class="section-title">✏️ 填充三：not only... but also... 合併句子（第 20–22, 28 題）</div>
+
+  <!-- Q20 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">20</span>
+      <div class="q-body">
+        <div class="q-zh">Ms. Thompson is an actress. Ms. Thompson is a writer. → 合併</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a20')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e20')">查看解析</button>
+        </div>
+        <div id="a20" class="answer-box"><strong>答案：</strong>Ms. Thompson is not only an actress but also a writer.</div>
+        <div id="e20" class="explain-box">
+          <strong>解析：</strong>主詞相同，be 動詞後的名詞用 not only... but also... 連接兩個補語。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q21 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">21</span>
+      <div class="q-body">
+        <div class="q-zh">My coat is comfortable. My coat is fashionable. → 合併</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a21')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e21')">查看解析</button>
+        </div>
+        <div id="a21" class="answer-box"><strong>答案：</strong>My coat is not only comfortable but also fashionable.</div>
+        <div id="e21" class="explain-box">
+          <strong>解析：</strong>主詞相同（My coat），be 動詞後的形容詞用 not only... but also... 連接。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q22 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">22</span>
+      <div class="q-body">
+        <div class="q-zh">My father made me breakfast. My father drove me to school. → 合併</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a22')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e22')">查看解析</button>
+        </div>
+        <div id="a22" class="answer-box"><strong>答案：</strong>My father not only made me breakfast but also drove me to school.</div>
+        <div id="e22" class="explain-box">
+          <strong>解析：</strong>主詞相同（My father），兩個動詞片語（made / drove）用 not only... but also... 連接。注意兩個動詞都要過去式。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q28 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">28</span>
+      <div class="q-body">
+        <div class="q-zh">I play soccer well. My brother plays soccer well. → 合併</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a28')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e28')">查看解析</button>
+        </div>
+        <div id="a28" class="answer-box"><strong>答案：</strong>Not only I but also my brother plays soccer well.</div>
+        <div id="e28" class="explain-box">
+          <strong>解析：</strong>「Not only A but also B + 動詞」→ 動詞與最近的主詞（B = my brother，第三人稱單數）一致，所以用 plays。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="chalk">
+
+  <!-- ======== 反身代名詞進階 23–24 ======== -->
+  <div class="section-title">✏️ 填充四：反身代名詞綜合練習（第 23–24 題）</div>
+
+  <!-- Q23 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">23</span>
+      <div class="q-body">
+        <div class="q-zh">填入適當的反身代名詞</div>
+        <div class="q-en">
+          ①&nbsp;My mom and dad will be away for two days, so my brother and I need to take care of <span class="blank">______</span>.<br>
+          ②&nbsp;The door opens by <span class="blank">______</span> when someone gets close.<br>
+          ③&nbsp;The girl is only three years old. She can't take a bath by <span class="blank">______</span>.<br>
+          ④&nbsp;Boys, help <span class="blank">______</span> to some ice cream. It is on the dining table.<br>
+          ⑤&nbsp;Ann: It was dangerous for you to go swimming by <span class="blank">______</span>. Never do that again.<br>
+          ⑥&nbsp;I heard John talking to <span class="blank">______</span> in the room.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a23')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e23')">查看解析</button>
+        </div>
+        <div id="a23" class="answer-box"><strong>答案：</strong>① ourselves &nbsp;②&nbsp;itself &nbsp;③&nbsp;herself &nbsp;④&nbsp;yourselves &nbsp;⑤&nbsp;yourself &nbsp;⑥&nbsp;himself</div>
+        <div id="e23" class="explain-box">
+          <strong>解析：</strong><br>
+          • ① my brother and I = we → <strong>ourselves</strong>（take care of oneself = 照顧自己）。<br>
+          • ② The door（物）→ <strong>itself</strong>（by itself = 自動地）。<br>
+          • ③ The girl → she → <strong>herself</strong>（by herself = 獨自）。<br>
+          • ④ Boys（= you 複數）→ <strong>yourselves</strong>（help yourself to sth. = 請自便）。<br>
+          • ⑤ you（單數的 Ben）→ <strong>yourself</strong>。<br>
+          • ⑥ John → he → <strong>himself</strong>（自言自語）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q24 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">24</span>
+      <div class="q-body">
+        <div class="q-zh">John made himself a cup of coffee this morning. → 主詞改為 John and Mary</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a24')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e24')">查看解析</button>
+        </div>
+        <div id="a24" class="answer-box"><strong>答案：</strong>John and Mary made themselves a cup of coffee this morning.</div>
+        <div id="e24" class="explain-box">
+          <strong>解析：</strong>John and Mary = they（複數）→ 反身代名詞改為 <strong>themselves</strong>。動詞也維持過去式 made。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="chalk">
+
+  <!-- ======== 感官動詞合併句 25–27 ======== -->
+  <div class="section-title">✏️ 填充五：感官動詞合併句（第 25–27 題）</div>
+
+  <!-- Q25 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">25</span>
+      <div class="q-body">
+        <div class="q-zh">Someone played the guitar in the classroom. That person also sang a beautiful song. → 用 Peter heard... 開頭</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a25')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e25')">查看解析</button>
+        </div>
+        <div id="a25" class="answer-box"><strong>答案：</strong>Peter heard someone play the guitar and sing a beautiful song in the classroom.</div>
+        <div id="e25" class="explain-box">
+          <strong>解析：</strong>hear + O + V（裸不定詞）；兩個動作（play、sing）以 and 連接，共用同一個受詞 someone。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q26 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">26</span>
+      <div class="q-body">
+        <div class="q-zh">I saw my brother in the park. He was playing basketball with his friends. → 用 saw 合併</div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a26')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e26')">查看解析</button>
+        </div>
+        <div id="a26" class="answer-box"><strong>答案：</strong>I saw my brother playing basketball with his friends in the park.</div>
+        <div id="e26" class="explain-box">
+          <strong>解析：</strong>see + O + V-ing（強調「看到他正在進行」的狀態）= saw my brother playing...。也可用裸不定詞 play，但 playing 更能強調「正在發生」。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q27 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">27</span>
+      <div class="q-body">
+        <div class="q-zh">你的經歷聽起來就像電影場景一樣！/ 我不想再次成為真實生活中地震的主角了。</div>
+        <div class="q-en">
+          Ella：Your experience sounds like a <span class="blank">______</span> from a movie!<br>
+          Ben：Well… actually, I don't want to be the <span class="blank">______</span> actor in a <span class="blank">______</span> <span class="blank">______</span> <span class="blank">______</span> again.
+        </div>
+        <div class="btn-group">
+          <button class="btn-ans" onclick="toggle('a27')">顯示答案</button>
+          <button class="btn-exp" onclick="toggle('e27')">查看解析</button>
+        </div>
+        <div id="a27" class="answer-box"><strong>答案：</strong>scene &nbsp;/&nbsp; main &nbsp;/&nbsp; real &nbsp;/&nbsp; life &nbsp;/&nbsp; earthquake</div>
+        <div id="e27" class="explain-box">
+          <strong>解析：</strong><br>
+          • a scene from a movie = 電影中的場景。<br>
+          • the main actor = 主要演員（主角）。<br>
+          • a real life earthquake = 真實生活中的地震（real life 當形容詞修飾 earthquake）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="chalk">
+
+  <!-- ======== 翻轉字卡 ======== -->
+  <div class="cards-section">
+    <div class="cards-title">🃏 翻轉字卡 — 本課重點單字</div>
+    <div class="cards-subtitle">點擊卡片翻轉，查看中文意思與例句</div>
+
+    <div class="cards-grid">
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">earthquake</div>
+            <div class="card-pos">n. 地震</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">地震</div>
+            <div class="card-ex">The earthquake hit the city at night.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">typhoon</div>
+            <div class="card-pos">n. 颱風</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">颱風</div>
+            <div class="card-ex">Typhoon Mulan will hit land tomorrow.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">hold on to</div>
+            <div class="card-pos">phr. 緊緊抓住</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">緊緊抓住</div>
+            <div class="card-ex">Hold on to something when it shakes.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">dangerous</div>
+            <div class="card-pos">adj. 危險的</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">危險的</div>
+            <div class="card-ex">It is dangerous to take an elevator during an earthquake.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">elevator</div>
+            <div class="card-pos">n. 電梯</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">電梯</div>
+            <div class="card-ex">Don't take an elevator when an earthquake happens.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">apartment</div>
+            <div class="card-pos">n. 公寓</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">公寓</div>
+            <div class="card-ex">An apartment fell down during the typhoon.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">experience</div>
+            <div class="card-pos">n./v. 經歷</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">經歷；體驗</div>
+            <div class="card-ex">I don't want to experience it again.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">lesson</div>
+            <div class="card-pos">n. 教訓；課</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">教訓；課程</div>
+            <div class="card-ex">The typhoon taught us a lesson.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">drawer</div>
+            <div class="card-pos">n. 抽屜</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">抽屜</div>
+            <div class="card-ex">Pull open that drawer to find candles.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">candle</div>
+            <div class="card-pos">n. 蠟燭</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">蠟燭</div>
+            <div class="card-ex">We need candles when there is no electricity.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">scary</div>
+            <div class="card-pos">adj. 嚇人的</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">嚇人的、恐怖的</div>
+            <div class="card-ex">That sounds really scary!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="card-en">luckily</div>
+            <div class="card-pos">adv. 幸運地</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-zh">幸運地</div>
+            <div class="card-ex">Luckily, nothing serious happened.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /cards-grid -->
+
+    <hr class="chalk" style="margin-top:36px;">
+
+    <!-- 文法速查表 -->
+    <div class="cards-title" style="margin-top:28px;">📋 文法速查表</div>
+
+    <div style="margin-bottom:20px;">
+      <div class="section-title" style="font-size:0.95em;">感官動詞用法</div>
+      <table class="grammar-table">
+        <tr>
+          <th>感官動詞</th><th>受詞 + 動詞形式</th><th>說明</th>
+        </tr>
+        <tr>
+          <td>see / watch / look at</td>
+          <td class="highlight">O + V / V-ing</td>
+          <td>看到（完成 / 進行中）</td>
+        </tr>
+        <tr>
+          <td>hear / listen to</td>
+          <td class="highlight">O + V / V-ing</td>
+          <td>聽到（完成 / 進行中）</td>
+        </tr>
+        <tr>
+          <td>feel</td>
+          <td class="highlight">O + V / V-ing</td>
+          <td>感覺到（完成 / 進行中）</td>
+        </tr>
+        <tr>
+          <td>tell / ask / want</td>
+          <td class="highlight">O + to V</td>
+          <td>非感官動詞，接不定詞</td>
+        </tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="section-title" style="font-size:0.95em;">反身代名詞速查</div>
+      <table class="grammar-table">
+        <tr>
+          <th>主格</th><th>反身代名詞</th><th>常見用法</th>
+        </tr>
+        <tr><td>I</td><td class="highlight">myself</td><td>by myself（獨自）</td></tr>
+        <tr><td>you（單）</td><td class="highlight">yourself</td><td>help yourself（請自便）</td></tr>
+        <tr><td>he</td><td class="highlight">himself</td><td>hurt himself（傷到自己）</td></tr>
+        <tr><td>she</td><td class="highlight">herself</td><td>enjoy herself（玩得開心）</td></tr>
+        <tr><td>it</td><td class="highlight">itself</td><td>by itself（自動地）</td></tr>
+        <tr><td>we</td><td class="highlight">ourselves</td><td>take care of ourselves</td></tr>
+        <tr><td>you（複）</td><td class="highlight">yourselves</td><td>prepare yourselves</td></tr>
+        <tr><td>they</td><td class="highlight">themselves</td><td>enjoy themselves</td></tr>
+      </table>
+    </div>
+
+  </div><!-- /cards-section -->
+
+  <div class="footer">K4 L5 作業解析網頁 ｜ 製作日期：2026.05.24 ｜ 版權屬於林淑媛老師</div>
+
+</div><!-- /blackboard -->
+
+<script>
+  function toggle(id) {
+    const el = document.getElementById(id);
+    el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+  }
+</script>
+</body>
+</html>

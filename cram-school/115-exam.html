@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>115年國中會考英語 第1–19題 解析</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
+
+  :root {
+    --board:      #1a3a2a;
+    --board-lt:   #234d38;
+    --board-dark: #112618;
+    --chalk:      #f0ede0;
+    --chalk-dim:  #b8b49e;
+    --yellow:     #f5d76e;
+    --orange:     #f0924a;
+    --green-chalk:#7ecfa0;
+    --pink-chalk: #f0a0a0;
+    --blue-chalk: #90c8f0;
+    --shadow:     0 4px 18px rgba(0,0,0,.45);
+    --radius:     10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', "Microsoft JhengHei", Arial, sans-serif;
+    background: var(--board-dark);
+    color: var(--chalk);
+    font-size: 30px;
+    line-height: 1.85;
+    min-height: 100vh;
+  }
+
+  /* ── 黑板紋理背景 ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(255,255,255,.012) 3px,
+        rgba(255,255,255,.012) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 50px,
+        rgba(255,255,255,.008) 50px,
+        rgba(255,255,255,.008) 51px
+      );
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--board-dark);
+    border-bottom: 3px solid rgba(240,237,224,.25);
+    text-align: center;
+    padding: 52px 20px 44px;
+    position: relative;
+  }
+  .chalk-line {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+      transparent 0%, var(--chalk) 15%, var(--chalk-dim) 40%,
+      var(--chalk) 60%, transparent 100%);
+    opacity: .4;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    color: var(--chalk);
+    letter-spacing: .05em;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.4);
+  }
+  .hero h1 span { color: var(--yellow); }
+  .hero p { margin-top: 10px; color: var(--chalk-dim); font-size: 1.1rem; }
+  .hero-badge {
+    display: inline-block; margin-top: 14px;
+    border: 2px solid var(--yellow);
+    color: var(--yellow);
+    font-size: 1rem; font-weight: 700;
+    padding: 6px 20px; border-radius: 20px;
+    letter-spacing: .08em;
+  }
+
+  /* ── WRAPPER ── */
+  .wrap { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  /* ── SECTION TITLE ── */
+  .sec-title {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 1.4rem; font-weight: 900;
+    color: var(--yellow);
+    margin: 40px 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(245,215,110,.3);
+    letter-spacing: .04em;
+  }
+
+  /* ── TIPS ── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .tip {
+    background: var(--board-lt);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    border-left: 4px solid var(--yellow);
+    display: flex; gap: 12px; align-items: flex-start;
+    box-shadow: var(--shadow);
+  }
+  .tip-num {
+    background: var(--yellow);
+    color: var(--board-dark);
+    font-weight: 900; font-size: .9rem;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .tip-body strong { display: block; font-size: 1.1rem; color: var(--yellow); }
+  .tip-body span   { font-size: 1rem; color: var(--chalk-dim); }
+
+  /* ── 題號進度 ── */
+  .progress-wrap { background: rgba(255,255,255,.1); border-radius:99px; height:6px; margin: 20px 0 4px; }
+  .progress-bar  { background: linear-gradient(90deg, var(--yellow), var(--orange));
+                   height:6px; border-radius:99px; transition: width .4s; }
+  .progress-label { font-size:.95rem; color:var(--chalk-dim); text-align:right; }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: var(--board-lt);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(240,237,224,.1);
+  }
+
+  .q-header {
+    background: var(--board-dark);
+    padding: 12px 18px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    border-bottom: 1px solid rgba(240,237,224,.15);
+  }
+  .q-num  { font-weight: 900; font-size: 1.35rem; color: var(--yellow); }
+  .q-tag  { font-size: 1rem; color: var(--chalk-dim);
+             background: rgba(255,255,255,.08);
+             padding: 3px 12px; border-radius: 20px; }
+
+  .q-body { padding: 18px 18px 4px; }
+  .q-sent { font-size: 1.35rem; line-height: 2; color: var(--chalk); font-weight: 500; }
+  .blank  { display: inline-block;
+             border-bottom: 2.5px solid var(--yellow);
+             min-width: 70px; }
+
+  /* ── 選項 ── */
+  .q-opts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 16px 0 8px;
+  }
+  @media(max-width:480px){ .q-opts { grid-template-columns: 1fr; } }
+
+  .opt {
+    background: rgba(255,255,255,.06);
+    border: 2px solid rgba(240,237,224,.18);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 1.2rem;
+    color: var(--chalk);
+    cursor: default;
+    transition: all .3s;
+  }
+  /* 答案揭曉後的樣式 */
+  .opt.correct-show {
+    background: rgba(126,207,160,.2);
+    border-color: var(--green-chalk);
+    color: var(--green-chalk);
+    font-weight: 700;
+  }
+  .opt.wrong-show {
+    opacity: .45;
+  }
+
+  /* ── 按鈕區 ── */
+  .btn-row {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    padding: 10px 18px 14px;
+  }
+
+  .btn-ans {
+    background: var(--orange);
+    color: #fff;
+    border: none; border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1.1rem; font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: opacity .2s;
+    font-family: inherit;
+  }
+  .btn-ans:hover { opacity: .85; }
+  .btn-ans.revealed {
+    background: rgba(255,255,255,.12);
+    color: var(--chalk-dim);
+    cursor: default;
+  }
+
+  .btn-detail {
+    background: transparent;
+    color: var(--blue-chalk);
+    border: 2px solid var(--blue-chalk);
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1.1rem; font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: all .2s;
+    font-family: inherit;
+  }
+  .btn-detail:hover { background: rgba(144,200,240,.12); }
+  .btn-detail.open  { background: rgba(144,200,240,.15); }
+
+  /* ── 解析區 ── */
+  .q-detail { display: none; padding: 0 18px 18px; }
+  .q-detail.visible { display: block; }
+
+  .detail-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  @media(max-width:520px){ .detail-row { grid-template-columns: 1fr; } }
+
+  .vocab-box {
+    background: rgba(245,215,110,.1);
+    border-left: 3px solid var(--yellow);
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 1.05rem;
+  }
+  .key-box {
+    background: rgba(126,207,160,.1);
+    border-left: 3px solid var(--green-chalk);
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 1.05rem;
+  }
+  .box-title {
+    font-weight: 900; font-size: 1rem;
+    margin-bottom: 8px; display: block;
+    letter-spacing: .04em;
+  }
+  .vocab-box .box-title { color: var(--yellow); }
+  .key-box   .box-title { color: var(--green-chalk); }
+  .vocab-box li, .key-box li { margin-bottom: 4px; color: var(--chalk); }
+  .vocab-box ul, .key-box ul { padding-left: 18px; }
+  .key-box p { color: var(--chalk); }
+
+  /* ── 文法表格 ── */
+  .gram-wrap {
+    background: var(--board-lt);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(240,237,224,.1);
+  }
+  .gram-table { width: 100%; border-collapse: collapse; font-size: 1.1rem; }
+  .gram-table th {
+    background: var(--board-dark);
+    color: var(--yellow);
+    padding: 14px 18px; text-align: left; font-weight: 700;
+    border-bottom: 1px solid rgba(240,237,224,.2);
+  }
+  .gram-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    color: var(--chalk);
+  }
+  .gram-table tr:last-child td { border-bottom: none; }
+  .gram-table code {
+    background: rgba(245,215,110,.2); color: var(--yellow);
+    padding: 2px 7px; border-radius: 4px;
+    font-family: monospace; font-size: .92em;
+  }
+
+  /* ── 單字速查（翻轉字卡）── */
+  .vocab-ref {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .flip-card {
+    perspective: 1000px;
+    height: 200px;
+    cursor: pointer;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transition: transform .55s cubic-bezier(.4,0,.2,1);
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner {
+    transform: rotateY(180deg);
+  }
+  .flip-front, .flip-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 14px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 22px 18px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .flip-front {
+    background: var(--board-lt);
+    border: 1px solid rgba(240,237,224,.1);
+    border-top: 4px solid var(--orange);
+  }
+  .flip-back {
+    background: var(--board-dark);
+    border: 1px solid rgba(245,215,110,.2);
+    border-top: 4px solid var(--yellow);
+    transform: rotateY(180deg);
+  }
+  .flip-front .word  { font-size: 1.7rem; font-weight: 900; color: var(--yellow); }
+  .flip-front .pos   { font-size: 1.05rem; color: var(--chalk-dim); margin-top: 6px; }
+  .flip-front .hint  {
+    font-size: .85rem; color: var(--chalk-dim);
+    margin-top: 14px; opacity: .55;
+    letter-spacing: .04em;
+  }
+  .flip-back .mean   { font-size: 1.3rem; font-weight: 700; color: var(--chalk); }
+  .flip-back .coloc  {
+    font-size: 1rem; color: var(--orange);
+    font-style: italic; margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* ── 回頂按鈕 ── */
+  #toTop {
+    position: fixed; bottom: 24px; right: 20px;
+    background: var(--yellow); color: var(--board-dark);
+    border: none; border-radius: 50%;
+    width: 44px; height: 44px;
+    font-size: 1.1rem; font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,.4);
+    display: none; align-items: center; justify-content: center;
+    z-index: 99;
+  }
+
+  /* ── 作答進度提示 ── */
+  .answered-badge {
+    display: inline-block;
+    background: var(--green-chalk);
+    color: var(--board-dark);
+    font-size: .75rem; font-weight: 700;
+    padding: 2px 10px; border-radius: 12px;
+    margin-left: auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>115年國中會考英語<br><span>第 1–19 題</span> 完全解析</h1>
+  <p>單字・片語・文法重點・解題技巧</p>
+  <div class="hero-badge">補習班課堂專用</div>
+  <div class="chalk-line"></div>
+</div>
+
+<div class="wrap">
+
+  <div class="progress-wrap"><div class="progress-bar" id="prog" style="width:0%"></div></div>
+  <div class="progress-label" id="prog-label">點「顯示答案」開始作答</div>
+
+  <!-- 五大解題技巧 -->
+  <div class="sec-title">★ 解題前先記住這 5 件事</div>
+  <div class="tips-grid">
+    <div class="tip"><div class="tip-num">①</div><div class="tip-body"><strong>看空格在哪裡</strong><span>空格位置決定詞性：句中動詞位置→動詞；名詞前→形容詞；動詞後→副詞</span></div></div>
+    <div class="tip"><div class="tip-num">②</div><div class="tip-body"><strong>看空格前後關鍵字</strong><span>空格旁邊的詞就是最大線索，例如空格後有 as a pet → 想到 keep</span></div></div>
+    <div class="tip"><div class="tip-num">③</div><div class="tip-body"><strong>刪去法</strong><span>先刪掉 2 個明顯錯的，再比較剩下的 2 個，勝算大增！</span></div></div>
+    <div class="tip"><div class="tip-num">④</div><div class="tip-body"><strong>代入法</strong><span>把每個選項放回句子讀讀看，選讀起來最通順、最有邏輯的</span></div></div>
+    <div class="tip"><div class="tip-num">⑤</div><div class="tip-body"><strong>看時態信號詞</strong><span>last night / yesterday → 過去式；now / right now → 現在進行式</span></div></div>
+  </div>
+
+  <!-- 題目 -->
+  <div class="sec-title">📝 第 1–19 題 逐題練習</div>
+  <p style="font-size:.9rem;color:var(--chalk-dim);margin-bottom:18px;">先自己想答案，再按「顯示答案」確認，按「查看解析」看單字說明 👇</p>
+
+  <div id="questions"></div>
+
+  <!-- 文法速查 -->
+  <div class="sec-title">📐 時態四兄弟 — 一次記清楚</div>
+  <div class="gram-wrap">
+    <table class="gram-table">
+      <tr><th>時態</th><th>結構</th><th>信號詞</th><th>例句</th></tr>
+      <tr><td>現在進行式</td><td><code>am/is/are + V-ing</code></td><td>now, right now</td><td>I <b>am watching</b> TV.</td></tr>
+      <tr><td>過去式</td><td><code>V-ed</code></td><td>last night, yesterday</td><td>She <b>mopped</b> the floors.</td></tr>
+      <tr><td>過去進行式</td><td><code>was/were + V-ing</code></td><td>when + 過去式</td><td>He <b>was losing</b> his hair.</td></tr>
+      <tr><td>現在完成式</td><td><code>have/has + p.p.</code></td><td>for years, since</td><td>She <b>has been</b> like this.</td></tr>
+    </table>
+  </div>
+
+  <!-- 單字速查 -->
+  <div class="sec-title">📖 重點單字速查</div>
+  <p style="font-size:.95rem;color:var(--chalk-dim);margin-bottom:16px;">👆 點字卡翻面，看中文意思和例句！</p>
+  <div class="vocab-ref">
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">knowledge</span><span class="pos">n.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">知識、學問</div><div class="coloc">have knowledge of = 對……很了解</div></div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">sore</span><span class="pos">adj.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">痠痛的</div><div class="coloc">get sore / have a sore throat</div></div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">terribly</span><span class="pos">adv.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">非常糟糕地</div><div class="coloc">sleep terribly = 睡得很差</div></div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">bottom</span><span class="pos">n.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">底部；最後</div><div class="coloc">at the bottom of the class = 班上最後一名</div></div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">bow</span><span class="pos">v.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">彎腰；鞠躬</div><div class="coloc">bow like... = 像……一樣低頭</div></div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">keep</span><span class="pos">v.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">飼養（一字多義）</div><div class="coloc">keep...as a pet = 養……當寵物</div></div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">both</span><span class="pos">pron.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">兩者都</div><div class="coloc">use both hands = 用雙手</div></div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">chances</span><span class="pos">n.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">機率；機會</div><div class="coloc">chances are small / good</div></div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">feed</span><span class="pos">v.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">餵食</div><div class="coloc">feed the pets = 餵寵物</div></div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="word">with</span><span class="pos">prep.</span><span class="hint">點我看中文 👆</span></div>
+        <div class="flip-back"><div class="mean">帶有某特徵</div><div class="coloc">a girl with long hair = 有長頭髮的女孩</div></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<button id="toTop" title="回到頂部">▲</button>
+
+<script>
+const qs = [
+  { n:1,  ans:1, tag:"單字辨識（衣物）",
+    sent:'Look at the picture. All of the students who are exercising are wearing <span class="blank">　　　　</span>.',
+    opts:["(A) caps 帽子","(B) glasses 眼鏡","(C) jackets 夾克","(D) pants 長褲"],
+    vocab:["<b>glasses</b> (n.) 眼鏡 — 複數形，不說 a glasses","<b>cap</b> (n.) 棒球帽（有帽沿）","<b>jacket</b> (n.) 夾克","<b>pants</b> (n.) 長褲（複數形）"],
+    key:"圖中所有運動學生的共同點是戴眼鏡；帽子、夾克、長褲並非每人都有。"
+  },
+  { n:2,  ans:0, tag:"動詞語意",
+    sent:'Rita <span class="blank">　　　　</span> her dogs many times a day. That\'s why they\'re too fat.',
+    opts:["(A) feeds 餵食","(B) kisses 親吻","(C) walks 遛狗","(D) washes 清洗"],
+    vocab:["<b>feed</b> (v.) 餵食 → <em>feed the pets</em> 餵寵物","<b>walk</b> (v.) 遛（狗）→ <em>walk the dog</em>"],
+    key:"線索：「所以牠們變胖了」→ 只有「餵太多次」才會讓狗變胖，遛狗反而消耗熱量。"
+  },
+  { n:3,  ans:1, tag:"固定片語搭配",
+    sent:'She has great <span class="blank">　　　　</span> of insects.',
+    opts:["(A) chances 機率","(B) knowledge 知識","(C) news 消息","(D) power 力量"],
+    vocab:["<b>have knowledge of</b> = 對……有豐富知識（固定片語！）","<b>news</b> (n.) 消息（不可數，沒有複數）"],
+    key:"固定搭配：have + knowledge + of。其他選項語意均不符「知道很多昆蟲知識」。"
+  },
+  { n:4,  ans:2, tag:"情態副詞",
+    sent:'Adam slept <span class="blank">　　　　</span> last night because he kept waking up from bad dreams.',
+    opts:["(A) deeply 深深地","(B) early 早地","(C) terribly 糟糕地","(D) quickly 快速地"],
+    vocab:["<b>terribly</b> (adv.) 非常糟糕地（terrible 的副詞）","<b>deeply</b> (adv.) 深深地 → sleep deeply 睡很沉（反義！）"],
+    key:"因為一直從惡夢中驚醒 → 睡得「很糟糕」= terribly。deeply 是睡得很沉，邏輯相反。"
+  },
+  { n:5,  ans:2, tag:"keep 一字多義",
+    sent:'Tara enjoys being with all kinds of animals; she even <span class="blank">　　　　</span> a snake as a pet.',
+    opts:["(A) drops 放下","(B) gives 給予","(C) keeps 飼養","(D) makes 製作"],
+    vocab:["<b>keep...as a pet</b> = 養……當寵物（重要片語！）","<b>keep</b> 一字多義：① 保持 ② 飼養"],
+    key:"空格後有 as a pet → 固定搭配 keep...as a pet。"
+  },
+  { n:6,  ans:3, tag:"介系詞 with（帶有特徵）",
+    sent:'Little Eric chose the doll <span class="blank">　　　　</span> big brown eyes because it was the cutest in the store.',
+    opts:["(A) at","(B) in","(C) on","(D) with 帶有"],
+    vocab:["<b>with</b> 帶有某特徵 → a doll <em>with</em> big eyes","比較：a girl <em>with</em> long hair / a house <em>with</em> a garden"],
+    key:"with 表示「帶有某種外觀特徵」，修飾前面的名詞。這是 with 的重要用法！"
+  },
+  { n:7,  ans:2, tag:"身體感受形容詞",
+    sent:'After four hours of mountain climbing, Rosa\'s legs got <span class="blank">　　　　</span>, so she took a rest.',
+    opts:["(A) dirty 骯髒的","(B) sick 生病的","(C) sore 痠痛的","(D) strong 強壯的"],
+    vocab:["<b>sore</b> (adj.) 痠痛的 → get sore / have a sore throat","<b>strong</b> = 強壯（邏輯相反！）"],
+    key:"爬山四小時 → 腿會「痠痛（sore）」，所以才需要休息。strong 是強壯，邏輯相反。"
+  },
+  { n:8,  ans:0, tag:"附加問句",
+    sent:'Having three cups of coffee a day can\'t be bad for our health, <span class="blank">　　　　</span>?',
+    opts:["(A) can it","(B) can they","(C) is it","(D) are they"],
+    vocab:["<b>附加問句口訣</b>：前否定→後肯定；前肯定→後否定","<b>動名詞主詞</b>（Having...）→ 視為單數，用 it"],
+    key:"① can't → 後面用 can（肯定）。② 主詞是動名詞片語 Having three cups → 單數 → 用 it。"
+  },
+  { n:9,  ans:2, tag:"不定代名詞 both",
+    sent:'You can\'t push that door open with only one hand. It\'s too heavy. You have to use <span class="blank">　　　　</span>!',
+    opts:["(A) all 全部","(B) another 另一個","(C) both 兩者都","(D) one 一個"],
+    vocab:["<b>both</b> (pron.) 兩者都 → use both hands 用雙手","<b>another</b> = 另一個（仍是單數，語意不完整）"],
+    key:"一隻手不夠 → 要「兩隻都用」→ both 強調兩者同時使用。"
+  },
+  { n:10, ans:0, tag:"間接問句（名詞子句）",
+    sent:'Alan works hard in his new job, and he wants to know <span class="blank">　　　　</span> his boss feels about him.',
+    opts:["(A) how 如何","(B) that 那件事","(C) whether 是否","(D) why 為什麼"],
+    vocab:["<b>間接問句</b>：know + 疑問詞 + 主詞 + 動詞","<b>how sb. feels about...</b> = 某人對……的感受"],
+    key:"Alan 想知道老闆「怎麼看待他」→ how 表示方式/感受。whether = 是否（二選一），不符。"
+  },
+  { n:11, ans:2, tag:"關係代名詞 who",
+    sent:'I thought the girl <span class="blank">　　　　</span> was Kate, but it was her sister, Candy.',
+    opts:["(A) answered the phone","(B) she answered the phone","(C) who answered the phone","(D) and answered the phone"],
+    vocab:["<b>who</b>（關係代名詞）修飾人：the + 名詞 + <em>who</em> + 動詞","the girl <em>who answered the phone</em> = 接電話的那個女孩"],
+    key:"空格前是 the girl，需要關係代名詞 who 帶出說明「哪個女孩」的形容子句。"
+  },
+  { n:12, ans:0, tag:"人稱代名詞受格",
+    sent:'Ken is going abroad with a woman he met online, though he doesn\'t know <span class="blank">　　　　</span> well.',
+    opts:["(A) her 她（受格）","(B) each other 彼此","(C) any 任何","(D) another 另一個"],
+    vocab:["<b>受格代名詞</b>：know + her / him / us / them","<b>each other</b> 彼此（主詞需為複數，此句主詞是 he，不符）"],
+    key:"know 是及物動詞，後面接受格。前面提到的是 a woman（單數女性）→ 用受格 her。"
+  },
+  { n:13, ans:3, tag:"文意理解＋方位名詞",
+    sent:'Joe is happy he is not at the <span class="blank">　　　　</span> of the class now. His grades are better than half of his classmates\'.',
+    opts:["(A) side 旁邊","(B) front 前面","(C) center 中間","(D) bottom 底部／最後"],
+    vocab:["<b>at the bottom of the class</b> = 班上最後一名（固定說法！）","<b>at the top of the class</b> = 班上第一名（反義）"],
+    key:"成績比一半同學好 → 不是「最後一名（bottom）」了，之前曾是墊底，現在改善了。"
+  },
+  { n:14, ans:3, tag:"形容詞搭配詞",
+    sent:'There is not a cloud in the sky. The chances of getting some rain today are really <span class="blank">　　　　</span>.',
+    opts:["(A) far 遠的","(B) good 好的（機率高）","(C) possible 可能的","(D) small 低的"],
+    vocab:["<b>chances are small</b> = 機率很低（搭配！）","<b>chances are good</b> = 機率很高（反義）"],
+    key:"萬里無雲不可能下雨 → 機率「很低（small）」。possible 不能說 chances are possible。"
+  },
+  { n:15, ans:0, tag:"bow 一字多義",
+    sent:'On windy days, the flowers in my garden <span class="blank">　　　　</span> like shy children with their heads down.',
+    opts:["(A) bow 彎腰","(B) fall 掉落","(C) rise 上升","(D) smell 聞起來"],
+    vocab:["<b>bow</b> (v.) ① 鞠躬 ② 彎腰低頭（一字多義！）","線索：with their heads down = 低著頭"],
+    key:"關鍵線索 with their heads down（低著頭）→ bow（彎腰低頭）完美呼應這個畫面。"
+  },
+  { n:16, ans:0, tag:"過去進行式",
+    sent:'Mr. Olson went to the doctor when he found he <span class="blank">　　　　</span> his hair.',
+    opts:["(A) was losing（過去進行）","(B) is losing（現在進行）","(C) will lose（未來）","(D) has lost（現在完成）"],
+    vocab:["<b>過去進行式</b>：was/were + V-ing","表示過去某時「正在進行」的動作"],
+    key:"主要動詞 found 是過去式，發現的當下頭髮「正在逐漸掉落」→ 用過去進行式 was losing。"
+  },
+  { n:17, ans:3, tag:"過去式",
+    sent:'Before becoming a movie star, she <span class="blank">　　　　</span> the floors at the supermarket.',
+    opts:["(A) mops（現在式）","(B) is mopping（現在進行）","(C) has mopped（現在完成）","(D) mopped（過去式）"],
+    vocab:["<b>mop</b> (v.) 拖地 → mopped（字尾 p 雙寫再加 ed！）","Before becoming = 在成為明星之前（過去的事）"],
+    key:"描述過去的第一份工作，整段在談過去發生的事 → 用過去式 mopped。"
+  },
+  { n:18, ans:1, tag:"指示代名詞 this",
+    sent:'Our dog Lassie hides under the bed every time the moon comes out. She has been <span class="blank">　　　　</span> for years.',
+    opts:["(A) it（代替單數名詞）","(B) like this（像這樣）","(C) like us（像我們）","(D) that（那樣）"],
+    vocab:["<b>like this</b> = 像這樣；這種狀況（代替前面整個行為）","it 只能代替單數名詞，無法代替整個行為模式"],
+    key:"like this 代替前面描述的整個行為（每次月亮出來就躲床底）→「這樣的狀況持續了好幾年」。"
+  },
+  { n:19, ans:3, tag:"現在進行式",
+    sent:'Tom: Sam, could you help me in the kitchen now?<br>Sam: No, I <span class="blank">　　　　</span> TV.',
+    opts:["(A) watch（現在習慣）","(B) watched（過去）","(C) have watched（現在完成）","(D) am watching（現在進行）"],
+    vocab:["<b>現在進行式</b>：am/is/are + V-ing","信號詞 <b>now</b> → 用現在進行式"],
+    key:"now 是現在進行式的信號詞。Sam 正在看電視（說話當下）→ am watching。"
+  }
+];
+
+const letters = ['A','B','C','D'];
+const container = document.getElementById('questions');
+let answeredCount = 0;
+
+qs.forEach((q, i) => {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+
+  const optsHtml = q.opts.map((o, idx) =>
+    `<div class="opt" id="opt-${i}-${idx}">${o}</div>`
+  ).join('');
+
+  const vocabHtml = q.vocab.map(v => `<li>${v}</li>`).join('');
+
+  card.innerHTML = `
+    <div class="q-header">
+      <span class="q-num">第 ${q.n} 題</span>
+      <span class="q-tag">${q.tag}</span>
+    </div>
+    <div class="q-body">
+      <div class="q-sent">${q.sent}</div>
+      <div class="q-opts">${optsHtml}</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-ans" id="btn-ans-${i}" onclick="revealAns(${i})">
+        👁 顯示答案
+      </button>
+      <button class="btn-detail" id="btn-det-${i}" onclick="toggleDetail(${i})">
+        📚 查看解析
+      </button>
+    </div>
+    <div class="q-detail" id="detail-${i}">
+      <div class="detail-row">
+        <div class="vocab-box">
+          <span class="box-title">📚 重要單字／片語</span>
+          <ul>${vocabHtml}</ul>
+        </div>
+        <div class="key-box">
+          <span class="box-title">🔑 解題關鍵</span>
+          <p>${q.key}</p>
+        </div>
+      </div>
+    </div>
+  `;
+  container.appendChild(card);
+});
+
+function revealAns(i) {
+  const btn = document.getElementById(`btn-ans-${i}`);
+  if (btn.classList.contains('revealed')) return;
+
+  const q = qs[i];
+  for (let idx = 0; idx < 4; idx++) {
+    const opt = document.getElementById(`opt-${i}-${idx}`);
+    if (idx === q.ans) {
+      opt.classList.add('correct-show');
+    } else {
+      opt.classList.add('wrong-show');
+    }
+  }
+  btn.classList.add('revealed');
+  btn.innerHTML = `✅ 答案：(${letters[q.ans]})`;
+
+  answeredCount++;
+  const pct = Math.round(answeredCount / qs.length * 100);
+  document.getElementById('prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('prog-label').textContent =
+    `已查看答案 ${answeredCount} / ${qs.length} 題`;
+}
+
+function toggleDetail(i) {
+  const detail = document.getElementById(`detail-${i}`);
+  const btn = document.getElementById(`btn-det-${i}`);
+  const isOpen = detail.classList.contains('visible');
+  detail.classList.toggle('visible');
+  btn.classList.toggle('open');
+  btn.innerHTML = isOpen ? '📚 查看解析' : '📚 收起解析';
+}
+
+// 回頂按鈕
+const topBtn = document.getElementById('toTop');
+window.addEventListener('scroll', () => {
+  topBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+});
+topBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>
